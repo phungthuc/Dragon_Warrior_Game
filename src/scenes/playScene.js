@@ -15,15 +15,14 @@ export class PlayScene extends Container {
 
         this._loadLevel();
         this._initInputHandler();
-        this._initGameplay();
         this._initUI();
+        this._initGameplay();
     }
 
     _loadLevel() {
         this.dataLevel = data[this.currentLevel - 1];
         this.levelLoader = new LevelLoader(this.dataLevel);
         this.dataLoaded = this.levelLoader.getData();
-        console.log(this.dataLoaded)
     }
 
     _initInputHandler() {
@@ -40,7 +39,6 @@ export class PlayScene extends Container {
 
     _initGameplay() {
         this._initPipes();
-
     }
 
     _initUI() {
@@ -54,16 +52,16 @@ export class PlayScene extends Container {
         });
     }
 
-    _initPlayer() {
+    _initDragon() {
 
     }
 
-    _initEnemies() {
+    _initBoss() {
 
     }
 
     _initPipes() {
-        this.pipeManager = new PipeManager();
+        this.pipeManager = new PipeManager(this.dataLoaded.pipes);
         this.addChild(this.pipeManager);
     }
 
