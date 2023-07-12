@@ -4,13 +4,14 @@ import { GameState } from "./gameState";
 import { PipeManager } from "../objects/pipe/pipeManager";
 import data from "../../assets/levels/level.json"
 import { LevelLoader } from "../level/levelLoader";
+import { Level } from "../level/level";
 
 export class PlayScene extends Container {
     constructor() {
         super();
 
         this.currentLevel = 1;
-        this.dataLoaded = {};
+        this.levelData = {};
         this.gameState = GameState.Start;
 
         this._loadLevel();
@@ -22,7 +23,12 @@ export class PlayScene extends Container {
     _loadLevel() {
         this.dataLevel = data[this.currentLevel - 1];
         this.levelLoader = new LevelLoader(this.dataLevel);
-        this.dataLoaded = this.levelLoader.getData();
+        this.levelData = this.levelLoader.getData();
+
+        this.level = new Level();
+        this.addChild(this.level);
+        console.log(this.levelData);
+        this.level.loadLevel(this.levelData);
     }
 
     _initInputHandler() {
@@ -38,6 +44,9 @@ export class PlayScene extends Container {
     }
 
     _initGameplay() {
+        this.gamePlay = new Container();
+        this.gamePlay.visible = false;
+        this.addChild(this.gamePlay);
         this._initPipes();
     }
 
@@ -48,6 +57,7 @@ export class PlayScene extends Container {
 
         this.uIManager.on(UIManagerKey.Playing, () => {
             this.uIManager.show(GameState.Playing);
+            this._onStart();
             this.gameState = GameState.Playing;
         });
     }
@@ -61,8 +71,8 @@ export class PlayScene extends Container {
     }
 
     _initPipes() {
-        this.pipeManager = new PipeManager(this.dataLoaded.pipes);
-        this.addChild(this.pipeManager);
+        // this.pipeManager = new PipeManager(this.levelData.pipes, this.levelData.numPipe);
+        // this.gamePlay.addChild(this.pipeManager);
     }
 
     _onEnemyRemoved() {
@@ -71,7 +81,7 @@ export class PlayScene extends Container {
 
     update(delta) {
         if (this.gameState === GameState.Playing) {
-            this.pipeManager.update(delta);
+            // this.pipeManager.update(delta);
         }
     }
 
@@ -83,14 +93,14 @@ export class PlayScene extends Container {
     }
 
     _onStart() {
+        this.gamePlay.visible = true;
+    }
+
+    _onStop() {
 
     }
 
     _onEnd() {
-
-    }
-
-    _onStop() {
 
     }
 }
