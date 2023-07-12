@@ -1,7 +1,7 @@
 [
     {
         "level": 1,
-        "num_of_pipe": 3,
+        "num_of_pipe": 9,
         "distance_pipes": 160,
         "items": [
             {
@@ -19,7 +19,7 @@
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
+                    "x": 1480,
                     "y_top": -300,
                     "y_bottom": 500,
                     "w": 52,
@@ -31,7 +31,79 @@
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
+                    "x": 1880,
+                    "y_top": -450,
+                    "y_bottom": 350,
+                    "w": 52,
+                    "h": 640,
+                    "velocity": 3,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 2280,
+                    "y_top": -600,
+                    "y_bottom": 200,
+                    "w": 52,
+                    "h": 640,
+                    "velocity": 3,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 2680,
+                    "y_top": -300,
+                    "y_bottom": 500,
+                    "w": 52,
+                    "h": 640,
+                    "velocity": 3,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 3080,
+                    "y_top": -450,
+                    "y_bottom": 350,
+                    "w": 52,
+                    "h": 640,
+                    "velocity": 3,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 3480,
+                    "y_top": -600,
+                    "y_bottom": 200,
+                    "w": 52,
+                    "h": 640,
+                    "velocity": 3,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 3880,
+                    "y_top": -300,
+                    "y_bottom": 500,
+                    "w": 52,
+                    "h": 640,
+                    "velocity": 3,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 4280,
                     "y_top": -450,
                     "y_bottom": 350,
                     "w": 52,
