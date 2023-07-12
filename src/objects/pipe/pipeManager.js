@@ -5,8 +5,10 @@ import { SpawningEvent } from "../../spawners/spawner";
 import { Game } from "../../game";
 
 export class PipeManager extends Container {
-    constructor() {
+    constructor(dataPipes) {
         super();
+
+        this.dataPipes = dataPipes;
         this.pipes = [];
 
         this._initPipeTopSpawner();
@@ -39,7 +41,15 @@ export class PipeManager extends Container {
         this.pipeTopSpawner.init(this.createPipeTop, 10);
     }
 
+    _initPipeBottomSpawner() {
+        this.pipeBottomSpawner = new ContainerSpawner();
+        this.pipeBottomSpawner.init(this.createPipeTop, 10);
+    }
+
     createPipeTop() {
         return new PipeTop();
+    }
+
+    createPipeBottom() {
     }
 }
