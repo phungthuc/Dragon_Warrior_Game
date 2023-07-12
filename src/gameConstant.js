@@ -49,6 +49,9 @@ export const GameConstant = Object.freeze({
   DISTANCE_PIPE: 160,
   PIPE_X: 1080,
   PIPE_VX: 3,
-  PIPE_QUANTITY: 2
+  PIPE_QUANTITY: 2,
+
+  //Collider
+  DEBUG_COLLIDER: false
 
 })
