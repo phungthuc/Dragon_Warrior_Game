@@ -26,8 +26,6 @@ export class PlayScene extends Container {
         this.levelData = this.levelLoader.getData();
 
         this.level = new Level();
-        this.addChild(this.level);
-        console.log(this.levelData);
         this.level.loadLevel(this.levelData);
     }
 
