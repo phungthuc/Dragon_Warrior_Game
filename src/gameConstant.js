@@ -19,8 +19,10 @@ export const GameConstant = Object.freeze({
   EXPLOSION_Y: 400,
 
   //Dragon
-  DRAGON_WIDTH: 86,
-  DRAGON_HEIGHT: 64,
+  DRAGON_X: 64,
+  DRAGON_Y: 306,
+  DRAGON_WIDTH: 76,
+  DRAGON_HEIGHT: 54,
   DRAGON_VY: 0,
   GRAVITY: 9.81,
   MAX_ACCELERATION: 16,
@@ -50,8 +52,11 @@ export const GameConstant = Object.freeze({
   PIPE_X: 1080,
   PIPE_VX: 3,
   PIPE_QUANTITY: 2,
+  MESS_HEALTH_WIDTH: 16,
+  MESS_HEALTH_HEIGHT: 24,
+  MESS_HEALTH_SCALE_X: 18,
 
   //Collider
   DEBUG_COLLIDER: false
 
-})
+});
