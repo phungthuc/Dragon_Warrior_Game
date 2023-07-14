@@ -1,7 +1,7 @@
-import { Container, Texture } from "pixi.js";
+import { Container, Sprite, Texture } from "pixi.js";
 import { GameConstant } from "../../gameConstant";
 
-export class Collider extends Container {
+export class Collider extends Sprite {
     constructor(tag, x, y, width, height) {
         super(Texture.WHITE);
         this.tag = tag;
