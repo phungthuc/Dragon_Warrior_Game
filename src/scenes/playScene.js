@@ -1,10 +1,11 @@
 import { Container } from "pixi.js";
 import { UIManager, UIManagerKey } from "../objects/ui/UIManager";
 import { GameState } from "./gameState";
-import { PipeManager } from "../objects/pipe/pipeManager";
 import data from "../../assets/levels/level.json"
 import { LevelLoader } from "../level/levelLoader";
 import { Level } from "../level/level";
+import CollisionDetector from "../physics/collision/collisionDetector";
+import { InputManager } from "../input/inputManager";
 
 export class PlayScene extends Container {
     constructor() {
@@ -15,7 +16,6 @@ export class PlayScene extends Container {
         this.gameState = GameState.Start;
 
         this._loadLevel();
-        this._initInputHandler();
         this._initUI();
         this._initGameplay();
     }
@@ -27,9 +27,6 @@ export class PlayScene extends Container {
 
         this.level = new Level();
         this.level.loadLevel(this.levelData);
-    }
-
-    _initInputHandler() {
 
     }
 
@@ -44,8 +41,8 @@ export class PlayScene extends Container {
     _initGameplay() {
         this.gamePlay = new Container();
         this.gamePlay.visible = false;
+        this.gamePlay.addChild(this.level);
         this.addChild(this.gamePlay);
-        this._initPipes();
     }
 
     _initUI() {
@@ -60,33 +57,14 @@ export class PlayScene extends Container {
         });
     }
 
-    _initDragon() {
-
-    }
-
-    _initBoss() {
-
-    }
-
-    _initPipes() {
-        // this.pipeManager = new PipeManager(this.levelData.pipes, this.levelData.numPipe);
-        // this.gamePlay.addChild(this.pipeManager);
-    }
-
     _onEnemyRemoved() {
 
     }
 
     update(delta) {
         if (this.gameState === GameState.Playing) {
-            // this.pipeManager.update(delta);
-        }
-    }
-
-    resize() {
-        this.uIManager.resize();
-        if (this.state === GameState.Playing) {
-            return;
+            CollisionDetector.instance.update(delta);
+            this.level.update(delta);
         }
     }
 
