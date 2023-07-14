@@ -56,8 +56,7 @@ export default class CollisionDetector {
         }
     }
 
-    update() {
-
+    update(delta) {
     }
 
     isCollide(col1, col2) {
