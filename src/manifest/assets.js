@@ -29,7 +29,7 @@ export const manifest = {
                 "dragon_03": "assets/images/dragon/strike_03.png",
                 "dragon_04": "assets/images/dragon/strike_04.png",
                 "dragon_05": "assets/images/dragon/strike_05.png",
-                "dragonFire": "assets/images/dragon/explosion_06.png"
+                "dragonFire": "assets/images/dragon/iblast_03.png"
             }
         },
         {
