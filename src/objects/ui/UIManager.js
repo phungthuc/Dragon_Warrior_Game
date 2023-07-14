@@ -57,8 +57,4 @@ export class UIManager extends Container {
                 break;
         }
     }
-
-    resize() {
-
-    }
 }
