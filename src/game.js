@@ -2,6 +2,7 @@ import { Application, Assets } from "pixi.js";
 import { GameConstant } from "./gameConstant";
 import { manifest } from "./manifest/assets";
 import { PlayScene } from "./scenes/playScene";
+import { InputManager } from "./input/inputManager";
 
 export class Game {
     static init() {
@@ -9,15 +10,24 @@ export class Game {
             width: GameConstant.GAME_WIDTH,
             height: GameConstant.GAME_HEIGHT,
             backgroundColor: 0x1099bb,
+            resolution: 1,
         });
+
+        this.app.renderer.view.style.position = "absolute";
+        this.app.renderer.view.style.top = "50%";
+        this.app.renderer.view.style.left = "50%";
+        this.app.renderer.view.style.transform = "translate(-50%,-50%)";
+        this.app.renderer.view.style.border = "1px solid #d8d8d8";
+
         document.body.appendChild(this.app.view);
-        const viewStyle = this.app.view.style;
-        viewStyle.position = "absolute";
-        viewStyle.display = "block";
-        viewStyle.padding = "0px 0px 0px 0px";
-        this.resize(window.innerWidth, window.innerHeight);
+        // const viewStyle = this.app.view.style;
+        // viewStyle.position = "absolute";
+        // viewStyle.display = "block";
+        // viewStyle.padding = "0px 0px 0px 0px";
+        this.resize(GameConstant.GAME_WIDTH, GameConstant.GAME_HEIGHT);
 
         this._loadGameAssets().then(() => {
+            this._initInputHandle();
             this._initScene();
             this.app.ticker.add(this.update, this);
         }).catch((err) => {
@@ -33,8 +43,6 @@ export class Game {
         this.app.view.height = this.windowHeight;
         this.app.resizeTo = this.app.view;
         this.app.resize();
-
-        this.playScene && this.playScene.resize();
     }
 
     static async _loadGameAssets() {
@@ -58,6 +66,10 @@ export class Game {
     static _initScene() {
         this.playScene = new PlayScene();
         this.app.stage.addChild(this.playScene);
+    }
+
+    static _initInputHandle() {
+        InputManager.init();
     }
 
     static update(delta) {
