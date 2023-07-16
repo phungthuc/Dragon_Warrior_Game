@@ -1,4 +1,4 @@
-import { Sprite, Texture } from "pixi.js";
+import { Sprite, Text, TextStyle, Texture } from "pixi.js";
 import { GameConstant } from "../../gameConstant";
 import { Collider } from "../../physics/collision/collider";
 import { ColliderTag } from "../../physics/collision/colliderTag";
@@ -14,7 +14,24 @@ export class PipeTop extends Sprite {
         super(Texture.from("pipeTop"));
 
         this.v = 0;
+        this.health = 0;
         this._initCollider();
+        this._initHealth();
+    }
+
+    _initHealth() {
+        this.style = new TextStyle({
+            fontFamily: "Futura",
+            fontSize: 24,
+            fill: "black"
+        });
+
+        this.messHealth = new Text(this.health, this.style);
+        this.messHealth.x = this.x + GameConstant.MESS_HEALTH_SCALE_X;
+        this.messHealth.y = this.y + (GameConstant.PIPE_HEIGHT / 2 - GameConstant.MESS_HEALTH_SCALE_Y);
+
+        this.addChild(this.messHealth);
+
     }
 
     _initCollider() {
@@ -24,9 +41,10 @@ export class PipeTop extends Sprite {
         this.pipeTopCollider.on(CollisionDetectorEvent.Colliding, this._onCollide, this);
     }
 
+
     update(delta) {
-        this.x -= this.v;
-        this._checkOutOfScreen();
+        this.messHealth.text = this.health;
+        this.x -= this.v * delta;
     }
 
     _onCollide(collider) {
