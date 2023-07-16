@@ -22,8 +22,6 @@ export class PipeBottom extends Sprite {
         });
 
         this.messHealth = new Text(this.health, this.style);
-        this.messHealth.width = GameConstant.MESS_HEALTH_WIDTH;
-        this.messHealth.height = GameConstant.MESS_HEALTH_HEIGHT;
         this.messHealth.x = this.x + GameConstant.MESS_HEALTH_SCALE_X;
         this.messHealth.y = this.y;
 
