@@ -116,7 +116,7 @@
                 "type": "boss",
                 "data": {
                     "x": 980,
-                    "y": 340,
+                    "y": 380,
                     "width": 304,
                     "height": 336,
                     "health": 100
