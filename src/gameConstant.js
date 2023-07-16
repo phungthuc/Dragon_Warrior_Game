@@ -43,6 +43,8 @@ export const GameConstant = Object.freeze({
   BOSS_FIRE_ANGLE: Math.PI / 18,
   BOSS_FIRE_VY: Math.PI / 4,
   BOSS_FIRE_QUANTITY: 6,
+  BOSS_HEALTH_SCALE_X: 50,
+  BOSS_HEALTH_SCALE_Y: 50,
 
 
   //Pipe
@@ -52,10 +54,10 @@ export const GameConstant = Object.freeze({
   PIPE_X: 1080,
   PIPE_VX: 3,
   PIPE_QUANTITY: 2,
-  MESS_HEALTH_WIDTH: 16,
-  MESS_HEALTH_HEIGHT: 24,
-  MESS_HEALTH_SCALE_X: 8,
-  MESS_HEALTH_SCALE_Y: 24,
+  PIPE_HEALTH_WIDTH: 16,
+  PIPE_HEALTH_HEIGHT: 24,
+  PIPE_HEALTH_SCALE_X: 8,
+  PIPE_HEALTH_SCALE_Y: 24,
 
   //Collider
   DEBUG_COLLIDER: false
