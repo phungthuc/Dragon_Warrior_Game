@@ -3,9 +3,8 @@ import { UIManager, UIManagerKey } from "../objects/ui/UIManager";
 import { GameState } from "./gameState";
 import data from "../../assets/levels/level.json"
 import { LevelLoader } from "../level/levelLoader";
-import { Level } from "../level/level";
 import CollisionDetector from "../physics/collision/collisionDetector";
-import { InputManager } from "../input/inputManager";
+import { LevelManager } from "../level/levelManager";
 
 export class PlayScene extends Container {
     constructor() {
@@ -25,7 +24,7 @@ export class PlayScene extends Container {
         this.levelLoader = new LevelLoader(this.dataLevel);
         this.levelData = this.levelLoader.getData();
 
-        this.level = new Level();
+        this.level = new LevelManager();
         this.level.loadLevel(this.levelData);
 
     }
