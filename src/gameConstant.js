@@ -54,7 +54,8 @@ export const GameConstant = Object.freeze({
   PIPE_QUANTITY: 2,
   MESS_HEALTH_WIDTH: 16,
   MESS_HEALTH_HEIGHT: 24,
-  MESS_HEALTH_SCALE_X: 18,
+  MESS_HEALTH_SCALE_X: 8,
+  MESS_HEALTH_SCALE_Y: 24,
 
   //Collider
   DEBUG_COLLIDER: false
