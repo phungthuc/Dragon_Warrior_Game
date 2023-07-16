@@ -8,7 +8,7 @@ export class Boss extends Container {
     constructor() {
         super();
 
-        this.health = 0;
+        this.health = 100;
         this._initSprite();
         this._initHealth();
         this._initCollider();
@@ -29,8 +29,8 @@ export class Boss extends Container {
         });
 
         this.messHealth = new Text(this.health, this.style);
-        this.messHealth.x = this.x;
-        this.messHealth.y = this.y + 100;
+        this.messHealth.x = this.x + GameConstant.BOSS_HEALTH_SCALE_X;
+        this.messHealth.y = this.y - GameConstant.BOSS_HEALTH_SCALE_Y;
 
         this.addChild(this.messHealth);
 
