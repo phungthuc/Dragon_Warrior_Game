@@ -3,26 +3,34 @@ import { GameConstant } from "../../gameConstant";
 import { Collider } from "../../physics/collision/collider";
 import { ColliderTag } from "../../physics/collision/colliderTag";
 import CollisionDetector, { CollisionDetectorEvent } from "../../physics/collision/collisionDetector";
+import { SpawningEvent } from "../../spawners/spawner";
 
 export class PipeBottom extends Sprite {
     constructor() {
         super(Texture.from("pipeBottom"));
 
-        this.v = 0;
-        this.health = 0;
+        this.v = null;
+        this.health = null;
         this._initCollider();
         this._initHealth();
+
+        this.on(SpawningEvent.Despawn, () => {
+            this.pipeBottomCollider.enable = false;
+        });
+        this.on(SpawningEvent.Spawn, () => {
+            this.pipeBottomCollider.enable = true;
+        });
     }
 
     _initHealth() {
         this.style = new TextStyle({
             fontFamily: "Futura",
-            fontSize: 24,
+            fontSize: 22,
             fill: "black"
         });
 
         this.messHealth = new Text(this.health, this.style);
-        this.messHealth.x = this.x + GameConstant.MESS_HEALTH_SCALE_X;
+        this.messHealth.x = this.x + GameConstant.PIPE_HEALTH_SCALE_X;
         this.messHealth.y = this.y;
 
         this.addChild(this.messHealth);
@@ -36,12 +44,29 @@ export class PipeBottom extends Sprite {
     }
 
     update(delta) {
+        if (!this.visible) {
+            return;
+        }
         this.messHealth.text = this.health;
         this.x -= this.v * delta;
 
     }
 
     _onCollide(collider) {
+        this._updateHealth();
+    }
 
+    _checkOutOfScreen() {
+        if (this.x < -GameConstant.PIPE_WIDTH) {
+            this.pipeBottomCollider.enable = true;
+        }
+    }
+
+    _updateHealth() {
+        this.health -= 10;
+        if (this.health == 0) {
+            this.visible = false;
+            this.pipeBottomCollider.enable = false;
+        }
     }
 }
