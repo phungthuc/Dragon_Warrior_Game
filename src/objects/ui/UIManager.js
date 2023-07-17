@@ -3,10 +3,14 @@ import { StartUI, StartUIEvent } from "./startUI";
 import { GameConstant } from "../../gameConstant";
 import { GameState } from "../../scenes/gameState";
 import { PlayUI } from "./playUI";
+import { LossLevelUI, LossLevelUIEvent } from "./lossLevelUI";
+import { WinLevelUI, WinLevelUIEvent } from "./winLevelUI";
 
 export const UIManagerKey = Object.freeze({
     Start: GameConstant.StartUI,
     Playing: GameConstant.PlayingUI,
+    Replaying: GameConstant.ReplayingUI,
+    NextPlaying: GameConstant.NextPlaying,
     WinLevel: GameConstant.WinLevelUI,
     LossLevel: GameConstant.LossLevelUI,
     Win: GameConstant.WinUI,
@@ -30,6 +34,20 @@ export class UIManager extends Container {
         this.playUI = new PlayUI();
         this.addChild(this.playUI);
 
+        this.lossLevelUI = new LossLevelUI();
+        this.addChild(this.lossLevelUI);
+        this.lossLevelUI.on(LossLevelUIEvent.ButtonClicked, () => {
+            this.emit(UIManagerKey.Replaying);
+        });
+
+        this.winLevelUI = new WinLevelUI();
+        this.addChild(this.winLevelUI);
+        this.winLevelUI.on(WinLevelUIEvent.ButtonRestartClicked, () => {
+            this.emit(UIManagerKey.Replaying);
+        });
+        this.winLevelUI.on(WinLevelUIEvent.ButtonNextClicked, () => {
+            this.emit(UIManagerKey.NextPlaying);
+        });
     }
 
     show(key) {
@@ -37,22 +55,27 @@ export class UIManager extends Container {
             case GameState.Start:
                 this.startUI.show();
                 this.playUI.hide();
+                this.lossLevelUI.hide();
+                this.winLevelUI.hide();
                 break;
             case GameState.Playing:
                 this.playUI.show();
                 this.startUI.hide();
+                this.lossLevelUI.hide();
+                this.winLevelUI.hide();
                 break;
-            default:
+            case GameState.LossLevel:
+                this.lossLevelUI.show();
+                this.playUI.hide();
+                this.startUI.hide();
+                this.winLevelUI.hide();
                 break;
-        }
-    }
-
-    hide(key) {
-        switch (key) {
-            case value:
-
+            case GameState.WinLevel:
+                this.winLevelUI.show();
+                this.playUI.hide();
+                this.startUI.hide();
+                this.lossLevelUI.hide();
                 break;
-
             default:
                 break;
         }
