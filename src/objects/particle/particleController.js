@@ -27,6 +27,6 @@ export class ParticleController extends ParticleContainer {
     }
 
     update(dt) {
-        this.emitter.update(dt);
+        // this.emitter.update(dt);
     }
 }
