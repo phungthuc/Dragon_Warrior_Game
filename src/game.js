@@ -3,6 +3,7 @@ import { GameConstant } from "./gameConstant";
 import { manifest } from "./manifest/assets";
 import { PlayScene } from "./scenes/playScene";
 import { InputManager } from "./input/inputManager";
+import { LossLevelUI } from "./objects/ui/lossLevelUI";
 
 export class Game {
     static init() {
@@ -20,10 +21,6 @@ export class Game {
         this.app.renderer.view.style.border = "1px solid #d8d8d8";
 
         document.body.appendChild(this.app.view);
-        // const viewStyle = this.app.view.style;
-        // viewStyle.position = "absolute";
-        // viewStyle.display = "block";
-        // viewStyle.padding = "0px 0px 0px 0px";
         this.resize(GameConstant.GAME_WIDTH, GameConstant.GAME_HEIGHT);
 
         this._loadGameAssets().then(() => {
