@@ -3,11 +3,13 @@ import { ContainerSpawner } from "../spawners/containerSpawner";
 import { PipeTop } from "../objects/pipe/pipeTop";
 import { SpawningEvent } from "../spawners/spawner";
 import { PipeBottom } from "../objects/pipe/pipeBottom";
-import { Dragon } from "../objects/dragon/dragonObject";
+import { Dragon, DragonEvent } from "../objects/dragon/dragonObject";
 import { DragonFire, DragonFireEvent } from "../objects/dragon/dragonfire";
 import { InputEvent, InputManager } from "../input/inputManager";
 import { GameConstant } from "../gameConstant";
 import { Boss } from "../objects/boss/bossObject";
+import { GameState } from "../scenes/gameState";
+import { BossFireManager, BossFireManagerEvent } from "../objects/boss/BossFireManager";
 
 
 export class LevelManager extends Container {
@@ -17,6 +19,7 @@ export class LevelManager extends Container {
         this.dataDragonFire = {};
         this.positionDragon = {};
         this.dataBoss = {};
+        this.dataBossFire = {};
         this.isDonePipe = false;
 
         InputManager.emitter.on(InputEvent.MouseUp, this.spawnDragonFire, this);
@@ -27,6 +30,7 @@ export class LevelManager extends Container {
         let pipeData = jsonData.pipes;
         this.dataDragonFire = jsonData.dragonFire;
         this.dataBoss = jsonData.boss;
+        this.dataBossFire = jsonData.bossFire;
 
         pipeData.forEach(data => {
             let pipeTop = this.pipeTopSpawner.spawn(this);
@@ -58,19 +62,26 @@ export class LevelManager extends Container {
         for (let i = this.pipeTopObjects.length - 1; i >= 0; i--) {
             let pipeTop = this.pipeTopObjects[i];
             let pipeBottom = this.pipeBottomObjects[i];
-
             pipeTop.emit(SpawningEvent.Despawn);
             pipeBottom.emit(SpawningEvent.Despawn);
         }
+
+        for (let i = this.dragonFireObjects.length - 1; i >= 0; i--) {
+            let dragonFire = this.dragonFireObjects[i];
+            dragonFire.emit(SpawningEvent.Despawn);
+        }
+
+        this.dragon.emit(SpawningEvent.Despawn);
+        this.boss.emit(SpawningEvent.Despawn);
     }
 
     _initSpawner() {
         this.pipeTopSpawner = new ContainerSpawner();
-        this.pipeTopSpawner.init(this.createPipeTop, 5);
+        this.pipeTopSpawner.init(this.createPipeTop, 9);
         this.pipeTopObjects = [];
 
         this.pipeBottomSpawner = new ContainerSpawner();
-        this.pipeBottomSpawner.init(this.createPipeBottom, 5);
+        this.pipeBottomSpawner.init(this.createPipeBottom, 9);
         this.pipeBottomObjects = [];
 
         this.dragonFireSpawner = new ContainerSpawner();
@@ -94,17 +105,19 @@ export class LevelManager extends Container {
         this.dragon = new Dragon();
         this.addChild(this.dragon);
         this.positionDragon = this.dragon.getPosition();
+        this.dragon.on(DragonEvent.Colliding, this._onLossLevel, this);
     }
 
     createBoss() {
-        this.boss = new Boss();
+        this.boss = new Boss(this.dataBossFire);
         this.boss.x = this.dataBoss.x;
         this.boss.y = this.dataBoss.y;
         this.boss.width = this.dataBoss.width;
         this.boss.height = this.dataBoss.height;
         this.boss.health = this.dataBoss.health;
         this.addChild(this.boss);
-        this.boss.visible = true;
+        this.boss.on(GameState.WinLevel, this._onWinLevel, this);
+        this.boss.visible = false;
     }
 
     spawnDragonFire() {
@@ -113,6 +126,7 @@ export class LevelManager extends Container {
         dragonFire.y = this.positionDragon.y;
         dragonFire.v = this.dataDragonFire.velocity;
         dragonFire.once(DragonFireEvent.Colliding, this.despawnDragonFire, this);
+        dragonFire.isCollide = true;
         this.dragonFireObjects.push(dragonFire);
     }
 
@@ -135,8 +149,11 @@ export class LevelManager extends Container {
             this.dragonFireObjects[i].update(delta);
         }
         this.dragon.update(delta);
-        this._checkEndPipe();
+        if (this.isDonePipe) {
+            this.boss.update(delta);
+        }
 
+        this._checkEndPipe();
     }
 
     _checkEndPipe() {
@@ -144,12 +161,23 @@ export class LevelManager extends Container {
             -this.pipeTopObjects[this.pipeTopObjects.length - 1].width ||
             this.pipeBottomObjects[this.pipeBottomObjects.length - 1].x <
             -this.pipeBottomObjects[this.pipeBottomObjects.length - 1].width) {
-            this.reset();
             this._enableBoss();
         }
     }
 
     _enableBoss() {
         this.boss.visible = true;
+        this.boss.onEnable();
+        this.isDonePipe = true;
+    }
+
+    _onLossLevel() {
+        this.reset();
+        this.emit(GameState.LossLevel, this);
+    }
+
+    _onWinLevel() {
+        this.reset();
+        this.emit(GameState.WinLevel, this);
     }
 }
