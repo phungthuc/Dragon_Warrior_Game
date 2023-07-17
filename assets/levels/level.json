@@ -1,7 +1,7 @@
 [
     {
         "level": 1,
-        "num_of_pipe": 9,
+        "num_of_pipe": 3,
         "distance_pipes": 160,
         "items": [
             {
@@ -41,85 +41,13 @@
                 }
             },
             {
-                "type": "pipe",
-                "data": {
-                    "x": 2280,
-                    "yTop": -600,
-                    "yBottom": 200,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 2680,
-                    "yTop": -300,
-                    "yBottom": 500,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 3080,
-                    "yTop": -450,
-                    "yBottom": 350,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 3480,
-                    "yTop": -600,
-                    "yBottom": 200,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 3880,
-                    "yTop": -300,
-                    "yBottom": 500,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 4280,
-                    "yTop": -450,
-                    "yBottom": 350,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
                 "type": "boss",
                 "data": {
                     "x": 980,
                     "y": 380,
                     "width": 304,
                     "height": 336,
-                    "health": 100
+                    "health": 20
                 }
             },
             {
@@ -127,17 +55,17 @@
                 "data": {
                     "width": 72,
                     "height": 30,
-                    "velocity": 5
+                    "velocity": 7
                 }
             },
             {
                 "type": "boss_fire",
                 "data": {
-                    "x": 780,
-                    "y": 420,
+                    "x": 960,
+                    "y": 460,
                     "width": 72,
                     "height": 30,
-                    "velocityX": 5
+                    "velocityX": 6
                 }
             }
     
@@ -145,7 +73,7 @@
     },
     {
         "level": 2,
-        "num_of_pipe": 5,
+        "num_of_pipe": 6,
         "distance_pipes": 160,
         "items": [
             {
@@ -163,9 +91,9 @@
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
-                    "yTop": -400,
-                    "yBottom": 400,
+                    "x": 1480,
+                    "yTop": -300,
+                    "yBottom": 500,
                     "width": 52,
                     "height": 640,
                     "velocity": 4,
@@ -175,9 +103,21 @@
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
-                    "yTop": -500,
-                    "yBottom": 300,
+                    "x": 1880,
+                    "yTop": -450,
+                    "yBottom": 350,
+                    "width": 52,
+                    "height": 640,
+                    "velocity": 4,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 2280,
+                    "yTop": -600,
+                    "yBottom": 200,
                     "width": 52,
                     "height": 640,
                     "velocity": 4,
@@ -187,7 +127,7 @@
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
+                    "x": 2680,
                     "yTop": -300,
                     "yBottom": 500,
                     "width": 52,
@@ -199,8 +139,8 @@
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
-                    "t_top": -450,
+                    "x": 3080,
+                    "yTop": -450,
                     "yBottom": 350,
                     "width": 52,
                     "height": 640,
@@ -211,11 +151,11 @@
             {
                 "type": "boss",
                 "data": {
-                    "x": 760,
-                    "y": 340,
+                    "x": 980,
+                    "y": 380,
                     "width": 304,
                     "height": 336,
-                    "health": 150
+                    "health": 25
                 }
             },
             {
@@ -223,7 +163,7 @@
                 "data": {
                     "width": 72,
                     "height": 30,
-                    "velocity": 4
+                    "velocity": 6
                 }
             },
             {
@@ -233,7 +173,7 @@
                     "y": 420,
                     "width": 72,
                     "height": 30,
-                    "velocityX": 6
+                    "velocityX": 7
                 }
             }
     
@@ -241,33 +181,9 @@
     },
     {
         "level": 3,
-        "num_of_pipe": 7,
-        "distance_pipes": 150,
+        "num_of_pipe": 9,
+        "distance_pipes": 160,
         "items": [
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 1080,
-                    "yTop": -300,
-                    "yBottom": 500,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 5,
-                    "health": 200
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 1080,
-                    "yTop": -450,
-                    "yBottom": 350,
-                    "width": 52,
-                    "h": 640,
-                    "velocity": 5,
-                    "health": 200
-                }
-            },
             {
                 "type": "pipe",
                 "data": {
@@ -275,17 +191,41 @@
                     "yTop": -600,
                     "yBottom": 200,
                     "width": 52,
-                    "h": 640,
+                    "height": 640,
                     "velocity": 5,
-                    "health": 200
+                    "health": 150
                 }
             },
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
-                    "yTop": -400,
-                    "yBottom": 400,
+                    "x": 1480,
+                    "yTop": -300,
+                    "yBottom": 500,
+                    "width": 52,
+                    "height": 640,
+                    "velocity": 5,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 1880,
+                    "yTop": -450,
+                    "yBottom": 350,
+                    "width": 52,
+                    "height": 640,
+                    "velocity": 5,
+                    "health": 150
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 2280,
+                    "yTop": -600,
+                    "yBottom": 200,
                     "width": 52,
                     "height": 640,
                     "velocity": 5,
@@ -295,19 +235,7 @@
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
-                    "yTop": -500,
-                    "yBottom": 300,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 5,
-                    "health": 200
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 1080,
+                    "x": 2680,
                     "yTop": -300,
                     "yBottom": 500,
                     "width": 52,
@@ -319,7 +247,7 @@
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
+                    "x": 3080,
                     "yTop": -450,
                     "yBottom": 350,
                     "width": 52,
@@ -329,13 +257,49 @@
                 }
             },
             {
+                "type": "pipe",
+                "data": {
+                    "x": 3480,
+                    "yTop": -600,
+                    "yBottom": 200,
+                    "width": 52,
+                    "height": 640,
+                    "velocity": 5,
+                    "health": 250
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 3880,
+                    "yTop": -300,
+                    "yBottom": 500,
+                    "width": 52,
+                    "height": 640,
+                    "velocity": 5,
+                    "health": 250
+                }
+            },
+            {
+                "type": "pipe",
+                "data": {
+                    "x": 4280,
+                    "yTop": -450,
+                    "yBottom": 350,
+                    "width": 52,
+                    "height": 640,
+                    "velocity": 5,
+                    "health": 250
+                }
+            },
+            {
                 "type": "boss",
                 "data": {
-                    "x": 760,
-                    "y": 340,
+                    "x": 980,
+                    "y": 380,
                     "width": 304,
                     "height": 336,
-                    "health": 200
+                    "health": 30
                 }
             },
             {
@@ -343,7 +307,7 @@
                 "data": {
                     "width": 72,
                     "height": 30,
-                    "velocity": 4
+                    "velocity": 5
                 }
             },
             {
