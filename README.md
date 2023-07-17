@@ -1,3 +1,5 @@
+DEMO PROJECT: https://phungthuc.github.io/Dragon_Warrior_Game/
+
 # pixijs setup
 
 ## Getting started
