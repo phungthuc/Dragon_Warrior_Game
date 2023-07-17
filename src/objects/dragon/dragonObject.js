@@ -4,6 +4,11 @@ import { ColliderTag } from "../../physics/collision/colliderTag";
 import CollisionDetector, { CollisionDetectorEvent } from "../../physics/collision/collisionDetector";
 import { InputEvent, InputManager } from "../../input/inputManager";
 import { GameConstant } from "../../gameConstant";
+import { SpawningEvent } from "../../spawners/spawner";
+
+export const DragonEvent = Object.freeze({
+    Colliding: "dragonevent:colliding"
+});
 
 export class Dragon extends Container {
     constructor() {
@@ -20,7 +25,11 @@ export class Dragon extends Container {
         this._initSprite();
         this._initCollider();
 
-        InputManager.emitter.on(InputEvent.SpaceUp, this.onKeyUp, this);
+        this.on(SpawningEvent.Despawn, () => {
+            this.dragonCollider.enable = false;
+        });
+
+        InputManager.emitter.on(InputEvent.SpaceUp, this._onKeyUp, this);
 
     }
 
@@ -50,15 +59,16 @@ export class Dragon extends Container {
         this.dragonPosition.y = this.dragon.y;
     }
 
-    _oncollide() {
 
-    }
-
-    onKeyUp() {
+    _onKeyUp() {
         this.acceleration = GameConstant.FORCE;
     }
 
     getPosition() {
         return this.dragonPosition;
+    }
+
+    _oncollide() {
+        this.emit(DragonEvent.Colliding, this);
     }
 }
