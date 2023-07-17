@@ -5,6 +5,8 @@ export const GameConstant = Object.freeze({
   //Key UI Manager
   StartUI: "uimanagerkey:start",
   PlayingUI: "uimanagerkey:playing",
+  ReplayingUI: "uimanagerkey:replaying",
+  NextPlaying: "uimanagerkey:nextplaying",
   WinLevelUI: "uimanagerkey:losslevel",
   LossLevelUI: "uimanagerkey:losslevel",
   WinUI: "uimanagerkey:win",
@@ -42,7 +44,7 @@ export const GameConstant = Object.freeze({
   BOSS_FIRE_SPEED: 5,
   BOSS_FIRE_ANGLE: Math.PI / 18,
   BOSS_FIRE_VY: Math.PI / 4,
-  BOSS_FIRE_QUANTITY: 6,
+  BOSS_FIRE_QUANTITY: 7,
   BOSS_HEALTH_SCALE_X: 50,
   BOSS_HEALTH_SCALE_Y: 50,
 
