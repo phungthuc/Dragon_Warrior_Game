@@ -1,7 +1,7 @@
 [
     {
         "level": 1,
-        "num_of_pipe": 9,
+        "num_of_pipe": 3,
         "distance_pipes": 160,
         "items": [
             {
@@ -41,85 +41,13 @@
                 }
             },
             {
-                "type": "pipe",
-                "data": {
-                    "x": 2280,
-                    "yTop": -600,
-                    "yBottom": 200,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 2680,
-                    "yTop": -300,
-                    "yBottom": 500,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 3080,
-                    "yTop": -450,
-                    "yBottom": 350,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 3480,
-                    "yTop": -600,
-                    "yBottom": 200,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 3880,
-                    "yTop": -300,
-                    "yBottom": 500,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 4280,
-                    "yTop": -450,
-                    "yBottom": 350,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 3,
-                    "health": 150
-                }
-            },
-            {
                 "type": "boss",
                 "data": {
                     "x": 980,
                     "y": 380,
                     "width": 304,
                     "height": 336,
-                    "health": 1
+                    "health": 20
                 }
             },
             {
@@ -127,7 +55,7 @@
                 "data": {
                     "width": 72,
                     "height": 30,
-                    "velocity": 5
+                    "velocity": 7
                 }
             },
             {
@@ -137,7 +65,7 @@
                     "y": 460,
                     "width": 72,
                     "height": 30,
-                    "velocityX": 8
+                    "velocityX": 6
                 }
             }
     
@@ -145,7 +73,7 @@
     },
     {
         "level": 2,
-        "num_of_pipe": 9,
+        "num_of_pipe": 6,
         "distance_pipes": 160,
         "items": [
             {
@@ -157,7 +85,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 4,
-                    "health": 200
+                    "health": 150
                 }
             },
             {
@@ -169,7 +97,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 4,
-                    "health": 200
+                    "health": 150
                 }
             },
             {
@@ -181,7 +109,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 4,
-                    "health": 200
+                    "health": 150
                 }
             },
             {
@@ -221,49 +149,13 @@
                 }
             },
             {
-                "type": "pipe",
-                "data": {
-                    "x": 3480,
-                    "yTop": -600,
-                    "yBottom": 200,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 4,
-                    "health": 200
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 3880,
-                    "yTop": -300,
-                    "yBottom": 500,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 4,
-                    "health": 200
-                }
-            },
-            {
-                "type": "pipe",
-                "data": {
-                    "x": 4280,
-                    "yTop": -450,
-                    "yBottom": 350,
-                    "width": 52,
-                    "height": 640,
-                    "velocity": 4,
-                    "health": 200
-                }
-            },
-            {
                 "type": "boss",
                 "data": {
                     "x": 980,
                     "y": 380,
                     "width": 304,
                     "height": 336,
-                    "health": 1
+                    "health": 25
                 }
             },
             {
@@ -271,7 +163,7 @@
                 "data": {
                     "width": 72,
                     "height": 30,
-                    "velocity": 5
+                    "velocity": 6
                 }
             },
             {
@@ -281,7 +173,7 @@
                     "y": 420,
                     "width": 72,
                     "height": 30,
-                    "velocityX": 8
+                    "velocityX": 7
                 }
             }
     
@@ -301,7 +193,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 5,
-                    "health": 250
+                    "health": 150
                 }
             },
             {
@@ -313,7 +205,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 5,
-                    "health": 250
+                    "health": 150
                 }
             },
             {
@@ -325,7 +217,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 5,
-                    "health": 250
+                    "health": 150
                 }
             },
             {
@@ -337,7 +229,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 5,
-                    "health": 250
+                    "health": 200
                 }
             },
             {
@@ -349,7 +241,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 5,
-                    "health": 250
+                    "health": 200
                 }
             },
             {
@@ -361,7 +253,7 @@
                     "width": 52,
                     "height": 640,
                     "velocity": 5,
-                    "health": 250
+                    "health": 200
                 }
             },
             {
@@ -407,7 +299,7 @@
                     "y": 380,
                     "width": 304,
                     "height": 336,
-                    "health": 1
+                    "health": 30
                 }
             },
             {
@@ -425,7 +317,7 @@
                     "y": 420,
                     "width": 72,
                     "height": 30,
-                    "velocityX": 8
+                    "velocityX": 7
                 }
             }
     

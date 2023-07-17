@@ -4768,6 +4768,7 @@ class LevelManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   }
   _enableBoss() {
     this.boss.visible = true;
+    this.boss.onEnable();
     this.isDonePipe = true;
   }
   _onLossLevel() {
@@ -4999,7 +5000,7 @@ class Boss extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this._initCollider();
     this._initBossFireSpawner();
     this.intervalSpawn = 100;
-    this.intervalDespawn = 250;
+    this.intervalDespawn = 300;
     this.spawnTime = 0;
     this.despawnTime = 0;
     this.on(_spawners_spawner__WEBPACK_IMPORTED_MODULE_5__.SpawningEvent.Despawn, () => {
@@ -5032,7 +5033,7 @@ class Boss extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
       _gameConstant__WEBPACK_IMPORTED_MODULE_3__.GameConstant.BOSS_HEIGHT * 4
     );
     this.sprite.addChild(this.bossCollider);
-    this.bossCollider.enable = true;
+    this.bossCollider.enable = false;
     _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_4__["default"].instance.addCollider(_physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.Boss, this.bossCollider);
     this.bossCollider.on(_physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_4__.CollisionDetectorEvent.Colliding, this._onCollide, this);
   }
@@ -5371,7 +5372,7 @@ class PipeBottom extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite {
       return;
     }
     this.messHealth.text = this.health;
-    this.x -= this.v * delta * 10;
+    this.x -= this.v * delta;
   }
   _onCollide(collider) {
     this._updateHealth();
@@ -5455,7 +5456,7 @@ class PipeTop extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite {
   }
   update(delta) {
     this.messHealth.text = this.health;
-    this.x -= this.v * delta * 10;
+    this.x -= this.v * delta;
     this._checkOutOfScreen();
   }
   _onCollide(collider) {
@@ -6027,11 +6028,13 @@ class CollisionDetector {
     this._checkDragonOutOfScreen();
     this._checkCollideDragonFireWithPipeTop();
     this._checkCollideDragonFireWithPipeBottom();
+    this._checkCollideDragonWidthPipeTop();
+    this._checkCollideDragonWidthPipeBottom();
     this._checkCollideDragonFireWithBoss();
     this._checkCollideDragonWithBossFire();
   }
   _checkDragonOutOfScreen() {
-    if (this.dragonCollider.getBounding().y < 0 || this.dragonCollider.getBounding().y + this.dragonCollider.height > _gameConstant__WEBPACK_IMPORTED_MODULE_0__.GameConstant.GAME_HEIGHT) {
+    if (this.dragonCollider.getBounding().y < 0 || this.dragonCollider.getBounding().y + this.dragonCollider.height / 2 > _gameConstant__WEBPACK_IMPORTED_MODULE_0__.GameConstant.GAME_HEIGHT) {
       if (this.dragonCollider.enable === true) {
         this.dragonCollider.emit(CollisionDetectorEvent.Colliding);
       }
@@ -41681,7 +41684,7 @@ module.exports = JSON.parse('{"alpha":{"start":0.8,"end":0.1},"scale":{"start":1
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('[{"level":1,"num_of_pipe":9,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":2280,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":2680,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":3080,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":3480,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":3880,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":4280,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":3,"health":150}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":1}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":960,"y":460,"width":72,"height":30,"velocityX":8}}]},{"level":2,"num_of_pipe":9,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":2280,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":2680,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":3080,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":3480,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":3880,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":4280,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":4,"health":200}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":1}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":8}}]},{"level":3,"num_of_pipe":9,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":2280,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":2680,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":3080,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":3480,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":3880,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":4280,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":250}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":1}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":8}}]}]');
+module.exports = JSON.parse('[{"level":1,"num_of_pipe":3,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":3,"health":150}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":20}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":7}},{"type":"boss_fire","data":{"x":960,"y":460,"width":72,"height":30,"velocityX":6}}]},{"level":2,"num_of_pipe":6,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":4,"health":150}},{"type":"pipe","data":{"x":2280,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":2680,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":3080,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":4,"health":200}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":25}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":6}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":7}}]},{"level":3,"num_of_pipe":9,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":150}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":150}},{"type":"pipe","data":{"x":2280,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":200}},{"type":"pipe","data":{"x":2680,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":200}},{"type":"pipe","data":{"x":3080,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":200}},{"type":"pipe","data":{"x":3480,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":3880,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":4280,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":250}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":30}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":7}}]}]');
 
 /***/ })
 
