@@ -5,6 +5,7 @@ import data from "../../assets/levels/level.json"
 import { LevelLoader } from "../level/levelLoader";
 import CollisionDetector from "../physics/collision/collisionDetector";
 import { LevelManager } from "../level/levelManager";
+import { Game } from "../game";
 
 export class PlayScene extends Container {
     constructor() {
@@ -26,8 +27,8 @@ export class PlayScene extends Container {
             fontWeight: 600
         });
 
-        this.nameGame = new Text("Level: " + this.currentLevel, this.styleName);
-        this.addChild(this.nameGame);
+        this.levelMess = new Text("Level: " + this.currentLevel, this.styleName);
+        this.addChild(this.levelMess);
     }
 
     _loadLevel() {
@@ -95,7 +96,7 @@ export class PlayScene extends Container {
     }
 
     update(delta) {
-        this.nameGame.text = "Level: " + this.currentLevel;
+        this.levelMess.text = "Level: " + this.currentLevel;
         if (this.gameState === GameState.Playing) {
             CollisionDetector.instance.update(delta);
             this.level.update(delta);
@@ -119,5 +120,10 @@ export class PlayScene extends Container {
 
     _onEnd() {
 
+    }
+
+    resize() {
+        this.levelMess.position.set(0, 0);
+        this.uIManager.resize();
     }
 }
