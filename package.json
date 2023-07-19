@@ -28,5 +28,9 @@
     "clean-webpack-plugin": "^4.0.0",
     "esbuild-loader": "^2.20.0",
     "pixi.js": "^7.0.4"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/phungthuc/Dragon_Warrior_Game/issues"
+  },
+  "homepage": "https://github.com/phungthuc/Dragon_Warrior_Game#readme"
 }
