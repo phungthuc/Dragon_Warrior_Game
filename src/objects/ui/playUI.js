@@ -63,30 +63,30 @@ export class PlayUI extends Container {
     }
 
     resize() {
-        this.layer_01.width = Game.windowWidth;
-        this.layer_01.height = Game.windowHeight;
-        this.layer_02.width = Game.windowWidth;
-        this.layer_02.height = Game.windowHeight;
-        this.layer_03.width = Game.windowWidth;
-        this.layer_03.height = Game.windowHeight;
-        this.layer_04.width = Game.windowWidth;
-        this.layer_04.height = Game.windowHeight;
-        this.layer_05.width = Game.windowWidth;
-        this.layer_05.height = Game.windowHeight;
-        this.layer_06.width = Game.windowWidth;
-        this.layer_06.height = Game.windowHeight;
-        this.layer_07.width = Game.windowWidth;
-        this.layer_07.height = Game.windowHeight;
-        this.layer_08.width = Game.windowWidth;
-        this.layer_08.height = Game.windowHeight;
-        this.layer_09.width = Game.windowWidth;
-        this.layer_09.height = Game.windowHeight;
-        this.layer_10.width = Game.windowWidth;
-        this.layer_10.height = Game.windowHeight;
-        this.layer_11.width = Game.windowWidth;
-        this.layer_11.height = Game.windowHeight;
-        this.layer_12.width = Game.windowWidth;
-        this.layer_12.height = Game.windowHeight;
+        this.layer_01.width = Game.width;
+        this.layer_01.height = Game.height;
+        this.layer_02.width = Game.width;
+        this.layer_02.height = Game.height;
+        this.layer_03.width = Game.width;
+        this.layer_03.height = Game.height;
+        this.layer_04.width = Game.width;
+        this.layer_04.height = Game.height;
+        this.layer_05.width = Game.width;
+        this.layer_05.height = Game.height;
+        this.layer_06.width = Game.width;
+        this.layer_06.height = Game.height;
+        this.layer_07.width = Game.width;
+        this.layer_07.height = Game.height;
+        this.layer_08.width = Game.width;
+        this.layer_08.height = Game.height;
+        this.layer_09.width = Game.width;
+        this.layer_09.height = Game.height;
+        this.layer_10.width = Game.width;
+        this.layer_10.height = Game.height;
+        this.layer_11.width = Game.width;
+        this.layer_11.height = Game.height;
+        this.layer_12.width = Game.width;
+        this.layer_12.height = Game.height;
 
     }
 }

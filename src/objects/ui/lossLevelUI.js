@@ -1,5 +1,6 @@
 import { Container, Text, TextStyle } from "pixi.js";
 import { Game } from "../../game";
+import { GameConstant } from "../../gameConstant";
 
 export const LossLevelUIEvent = Object.freeze({
     ButtonClicked: "losslevelevent:clicked"
@@ -57,9 +58,9 @@ export class LossLevelUI extends Container {
     }
 
     resize() {
-        this.nameGame.x = Game.windowWidth / 2 - this.nameGame.width / 2;
-        this.nameGame.y = Game.windowHeight / 3;
-        this.restartMess.x = Game.windowWidth / 2 - this.restartMess.width / 2;
-        this.restartMess.y = this.nameGame.y + 100;
+        this.nameGame.x = Game.width / 2 - this.nameGame.width / 2;
+        this.nameGame.y = Game.height / 3;
+        this.restartMess.x = Game.width / 2 - this.restartMess.width / 2;
+        this.restartMess.y = this.nameGame.y + GameConstant.SCALE_DISTANCE_MESS * Game.ratioHeight;
     }
 }
