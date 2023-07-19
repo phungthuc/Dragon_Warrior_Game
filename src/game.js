@@ -3,25 +3,25 @@ import { GameConstant } from "./gameConstant";
 import { manifest } from "./manifest/assets";
 import { PlayScene } from "./scenes/playScene";
 import { InputManager } from "./input/inputManager";
-import { LossLevelUI } from "./objects/ui/lossLevelUI";
+import VConsole from 'vconsole';
 
 export class Game {
     static init() {
+        // this.vConsole = new VConsole();
         this.app = new Application({
             width: GameConstant.GAME_WIDTH,
             height: GameConstant.GAME_HEIGHT,
             backgroundColor: 0x1099bb,
             resolution: 1,
         });
-
-        this.app.renderer.view.style.position = "absolute";
-        this.app.renderer.view.style.top = "50%";
-        this.app.renderer.view.style.left = "50%";
-        this.app.renderer.view.style.transform = "translate(-50%,-50%)";
-        this.app.renderer.view.style.border = "1px solid #d8d8d8";
-
         document.body.appendChild(this.app.view);
-        this.resize(GameConstant.GAME_WIDTH, GameConstant.GAME_HEIGHT);
+        const viewStyle = this.app.view.style;
+        viewStyle.position = "absolute";
+        viewStyle.display = "block";
+        viewStyle.padding = "0px 0px 0px 0px";
+        // this.ratioWidth = window.innerWidth / GameConstant.GAME_WIDTH;
+        // this.ratioHeight = window.innerHeight / GameConstant.GAME_HEIGHT;
+        this.resize(window.innerWidth, window.innerHeight);
 
         this._loadGameAssets().then(() => {
             this._initInputHandle();
@@ -36,10 +36,25 @@ export class Game {
         let style = this.app.view.style;
         this.windowWidth = width;
         this.windowHeight = height;
-        this.app.view.width = this.windowWidth;
-        this.app.view.height = this.windowHeight;
+        let ratio = 1;
+        // let ratio = Math.max(GameConstant.GAME_WIDTH / this.windowWidth, GameConstant.GAME_HEIGHT / this.windowHeight);
+        this.width = this.windowWidth * ratio;
+        this.height = this.windowHeight * ratio;
+        this.app.view.width = this.width;
+        this.app.view.height = this.height;
+        // let scale = this.windowWidth / this.width;
+        // style.transformOrigin = "0px 0px";
+        // style.transform = `scale(${scale})`;
+        // let vMargin = Math.floor((this.windowWidth - this.width * scale) / 2);
+        // let hMargin = Math.floor((this.windowHeight - this.height * scale) / 2);
+
+        // style.margin = `${hMargin}px ${vMargin}px ${hMargin}px ${vMargin}px`;
+        this.ratioWidth = window.innerWidth / GameConstant.GAME_WIDTH;
+        this.ratioHeight = window.innerHeight / GameConstant.GAME_HEIGHT;
         this.app.resizeTo = this.app.view;
         this.app.resize();
+        this.playScene && this.playScene.resize();
+        // console.log(window.innerWidth / GameConstant.GAME_WIDTH)
     }
 
     static async _loadGameAssets() {
@@ -76,4 +91,9 @@ export class Game {
 
 window.onload = function () {
     Game.init();
+    window.onresize = () => {
+        Game.resize(window.innerWidth, window.innerHeight);
+    }
 }
+
+

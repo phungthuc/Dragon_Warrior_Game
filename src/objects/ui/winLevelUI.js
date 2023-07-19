@@ -1,5 +1,6 @@
 import { Container, Text, TextStyle } from "pixi.js";
 import { Game } from "../../game";
+import { GameConstant } from "../../gameConstant";
 
 export const WinLevelUIEvent = Object.freeze({
     ButtonRestartClicked: "winlevelevent:restartbutton",
@@ -71,9 +72,9 @@ export class WinLevelUI extends Container {
         this.nameGame.y = Game.windowHeight / 3;
 
         this.restartMess.x = Game.windowWidth / 2 - this.restartMess.width / 2;
-        this.restartMess.y = this.nameGame.y + 100;
+        this.restartMess.y = this.nameGame.y + GameConstant.SCALE_DISTANCE_MESS * Game.ratioHeight;
 
         this.nextMess.x = Game.windowWidth / 2 - this.nextMess.width / 2;
-        this.nextMess.y = this.restartMess.y + 100;
+        this.nextMess.y = this.restartMess.y + GameConstant.SCALE_DISTANCE_MESS * Game.ratioHeight;
     }
 }

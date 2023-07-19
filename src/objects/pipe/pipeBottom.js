@@ -4,6 +4,7 @@ import { Collider } from "../../physics/collision/collider";
 import { ColliderTag } from "../../physics/collision/colliderTag";
 import CollisionDetector, { CollisionDetectorEvent } from "../../physics/collision/collisionDetector";
 import { SpawningEvent } from "../../spawners/spawner";
+import { Game } from "../../game";
 
 export class PipeBottom extends Sprite {
     constructor() {
@@ -48,7 +49,7 @@ export class PipeBottom extends Sprite {
             return;
         }
         this.messHealth.text = this.health;
-        this.x -= this.v * delta;
+        this.x -= this.v * delta * Game.ratioWidth;
 
     }
 

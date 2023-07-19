@@ -4,25 +4,19 @@ import { PipeTop } from "../objects/pipe/pipeTop";
 import { SpawningEvent } from "../spawners/spawner";
 import { PipeBottom } from "../objects/pipe/pipeBottom";
 import { Dragon, DragonEvent } from "../objects/dragon/dragonObject";
-import { DragonFire, DragonFireEvent } from "../objects/dragon/dragonfire";
-import { InputEvent, InputManager } from "../input/inputManager";
-import { GameConstant } from "../gameConstant";
 import { Boss } from "../objects/boss/bossObject";
 import { GameState } from "../scenes/gameState";
-import { BossFireManager, BossFireManagerEvent } from "../objects/boss/BossFireManager";
-
+import { Game } from "../game";
 
 export class LevelManager extends Container {
     constructor() {
         super("level");
 
         this.dataDragonFire = {};
-        this.positionDragon = {};
         this.dataBoss = {};
         this.dataBossFire = {};
         this.isDonePipe = false;
 
-        InputManager.emitter.on(InputEvent.MouseUp, this.spawnDragonFire, this);
         this._initSpawner();
     }
 
@@ -36,17 +30,17 @@ export class LevelManager extends Container {
             let pipeTop = this.pipeTopSpawner.spawn(this);
             let pipeBottom = this.pipeBottomSpawner.spawn(this);
 
-            pipeTop.x = data.x;
-            pipeTop.y = data.yTop;
-            pipeTop.width = data.width;
-            pipeTop.height = data.height;
+            pipeTop.x = data.x * Game.ratioWidth;
+            pipeTop.y = data.yTop * Game.ratioHeight;
+            pipeTop.width = data.width * Game.ratioWidth;
+            pipeTop.height = data.height * Game.ratioHeight;
             pipeTop.v = data.velocity;
             pipeTop.health = data.health;
 
-            pipeBottom.x = data.x;
-            pipeBottom.y = data.yBottom;
-            pipeBottom.width = data.width;
-            pipeBottom.height = data.height;
+            pipeBottom.x = data.x * Game.ratioWidth;
+            pipeBottom.y = data.yBottom * Game.ratioHeight;
+            pipeBottom.width = data.width * Game.ratioWidth;
+            pipeBottom.height = data.height * Game.ratioHeight;
             pipeBottom.v = data.velocity;
             pipeBottom.health = data.health;
 
@@ -66,11 +60,6 @@ export class LevelManager extends Container {
             pipeBottom.emit(SpawningEvent.Despawn);
         }
 
-        for (let i = this.dragonFireObjects.length - 1; i >= 0; i--) {
-            let dragonFire = this.dragonFireObjects[i];
-            dragonFire.emit(SpawningEvent.Despawn);
-        }
-
         this.dragon.emit(SpawningEvent.Despawn);
         this.boss.emit(SpawningEvent.Despawn);
     }
@@ -83,10 +72,6 @@ export class LevelManager extends Container {
         this.pipeBottomSpawner = new ContainerSpawner();
         this.pipeBottomSpawner.init(this.createPipeBottom, 9);
         this.pipeBottomObjects = [];
-
-        this.dragonFireSpawner = new ContainerSpawner();
-        this.dragonFireSpawner.init(this.createDragonFire, 20);
-        this.dragonFireObjects = [];
     }
 
     createPipeTop() {
@@ -97,56 +82,26 @@ export class LevelManager extends Container {
         return new PipeBottom();
     }
 
-    createDragonFire() {
-        return new DragonFire();
-    }
-
     createDragon() {
-        this.dragon = new Dragon();
+        this.dragon = new Dragon(this.dataDragonFire);
         this.addChild(this.dragon);
-        this.positionDragon = this.dragon.getPosition();
         this.dragon.on(DragonEvent.Colliding, this._onLossLevel, this);
     }
 
     createBoss() {
         this.boss = new Boss(this.dataBossFire);
-        this.boss.x = this.dataBoss.x;
-        this.boss.y = this.dataBoss.y;
-        this.boss.width = this.dataBoss.width;
-        this.boss.height = this.dataBoss.height;
+        this.boss.x = this.dataBoss.x * Game.ratioWidth;
+        this.boss.y = this.dataBoss.y * Game.ratioHeight;
         this.boss.health = this.dataBoss.health;
         this.addChild(this.boss);
         this.boss.on(GameState.WinLevel, this._onWinLevel, this);
         this.boss.visible = false;
     }
 
-    spawnDragonFire() {
-        let dragonFire = this.dragonFireSpawner.spawn(this);
-        dragonFire.x = this.positionDragon.x + GameConstant.DRAGON_FIRE_WIDTH;
-        dragonFire.y = this.positionDragon.y;
-        dragonFire.v = this.dataDragonFire.velocity;
-        dragonFire.once(DragonFireEvent.Colliding, this.despawnDragonFire, this);
-        dragonFire.isCollide = true;
-        this.dragonFireObjects.push(dragonFire);
-    }
-
-    despawnDragonFire(bullet) {
-        if (this.dragonFireObjects.length > 0) {
-            let index = this.dragonFireObjects.indexOf(bullet);
-            if (index >= 0) {
-                this.dragonFireObjects.splice(index, 1);
-                bullet.emit(SpawningEvent.Despawn);
-            }
-        }
-    }
-
     update(delta) {
         for (let i = 0; i < this.pipeTopObjects.length; i++) {
             this.pipeTopObjects[i].update(delta);
             this.pipeBottomObjects[i].update(delta);
-        }
-        for (let i = 0; i < this.dragonFireObjects.length; i++) {
-            this.dragonFireObjects[i].update(delta);
         }
         this.dragon.update(delta);
         if (this.isDonePipe) {

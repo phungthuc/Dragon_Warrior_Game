@@ -80,4 +80,11 @@ export class UIManager extends Container {
                 break;
         }
     }
+
+    resize() {
+        this.startUI.resize();
+        this.playUI.resize();
+        this.winLevelUI.resize();
+        this.lossLevelUI.resize();
+    }
 }

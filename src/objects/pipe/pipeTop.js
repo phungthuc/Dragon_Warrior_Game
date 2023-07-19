@@ -4,6 +4,7 @@ import { Collider } from "../../physics/collision/collider";
 import { ColliderTag } from "../../physics/collision/colliderTag";
 import CollisionDetector, { CollisionDetectorEvent } from "../../physics/collision/collisionDetector";
 import { SpawningEvent } from "../../spawners/spawner";
+import { Game } from "../../game";
 
 export const PipeTopEvent = Object.freeze({
     Colliding: "pipetopevent:Colliding",
@@ -30,7 +31,7 @@ export class PipeTop extends Sprite {
 
     _initHealth() {
         this.style = new TextStyle({
-            fontFamily: "Futura",
+            fontFamily: "Times New Roman",
             fontSize: 22,
             fill: "black"
         });
@@ -53,7 +54,7 @@ export class PipeTop extends Sprite {
 
     update(delta) {
         this.messHealth.text = this.health;
-        this.x -= this.v * delta;
+        this.x -= this.v * delta * Game.ratioWidth;
         this._checkOutOfScreen();
     }
 
