@@ -7,6 +7,7 @@ import { SpawningEvent } from "../../spawners/spawner";
 import { GameState } from "../../scenes/gameState";
 import { ContainerSpawner } from "../../spawners/containerSpawner";
 import { BossFireManager } from "./BossFireManager";
+import { Game } from "../../game";
 
 export class Boss extends Container {
     constructor(dataBossFire) {
@@ -33,8 +34,8 @@ export class Boss extends Container {
 
     _initSprite() {
         this.sprite = new Sprite(Texture.from("boss"));
-        this.sprite.width = GameConstant.BOSS_WIDTH;
-        this.sprite.height = GameConstant.BOSS_HEIGHT;
+        this.sprite.width = GameConstant.BOSS_WIDTH * Game.ratioWidth;
+        this.sprite.height = GameConstant.BOSS_HEIGHT * Game.ratioHeight;
         this.addChild(this.sprite);
     }
 

@@ -58,9 +58,9 @@ export class StartUI extends Container {
     }
 
     resize() {
-        this.nameGame.x = Game.windowWidth / 2 - this.nameGame.width / 2;
-        this.nameGame.y = Game.windowHeight / 3;
-        this.startMess.x = Game.windowWidth / 2 - this.startMess.width / 2;
-        this.startMess.y = this.nameGame.y + 100;
+        this.nameGame.x = Game.width / 2 - this.nameGame.width / 2;
+        this.nameGame.y = Game.height / 3;
+        this.startMess.x = Game.width / 2 - this.startMess.width / 2;
+        this.startMess.y = this.nameGame.y + GameConstant.SCALE_DISTANCE_MESS * Game.ratioHeight;
     }
 }
