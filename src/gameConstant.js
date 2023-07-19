@@ -1,6 +1,6 @@
 export const GameConstant = Object.freeze({
-  GAME_WIDTH: 1280,
-  GAME_HEIGHT: 720,
+  GAME_WIDTH: 720,
+  GAME_HEIGHT: 1280,
 
   //Key UI Manager
   StartUI: "uimanagerkey:start",
@@ -13,8 +13,8 @@ export const GameConstant = Object.freeze({
   LossUI: "uimanagerkey:loss",
 
   //Boss
-  BOSS_WIDTH: 304,
-  BOSS_HEIGHT: 336,
+  BOSS_WIDTH: 160,
+  BOSS_HEIGHT: 480,
   BOSS_X: 760,
   BOSS_Y: 340,
   EXPLOSION_X: 760,
@@ -23,8 +23,8 @@ export const GameConstant = Object.freeze({
   //Dragon
   DRAGON_X: 64,
   DRAGON_Y: 306,
-  DRAGON_WIDTH: 76,
-  DRAGON_HEIGHT: 54,
+  DRAGON_WIDTH: 52,
+  DRAGON_HEIGHT: 112,
   DRAGON_VY: 0,
   GRAVITY: 9.81,
   MAX_ACCELERATION: 16,
@@ -32,13 +32,13 @@ export const GameConstant = Object.freeze({
   ACCELERATION_SCALE: 0.05,
 
   //Dragon Fire
-  DRAGON_FIRE_WIDTH: 72,
-  DRAGON_FIRE_HEIGHT: 30,
+  DRAGON_FIRE_WIDTH: 36,
+  DRAGON_FIRE_HEIGHT: 69,
   DRAGON_FIRE_SPEED: 5,
 
   //Boss Fire
-  BOSS_FIRE_WIDTH: 72,
-  BOSS_FIRE_HEIGHT: 30,
+  BOSS_FIRE_WIDTH: 52,
+  BOSS_FIRE_HEIGHT: 42,
   BOSS_FIRE_X: 780,
   BOSS_FIRE_Y: 420,
   BOSS_FIRE_SPEED: 5,
@@ -50,7 +50,7 @@ export const GameConstant = Object.freeze({
 
 
   //Pipe
-  PIPE_WIDTH: 52,
+  PIPE_WIDTH: 32,
   PIPE_HEIGHT: 640,
   DISTANCE_PIPE: 160,
   PIPE_X: 1080,
@@ -61,7 +61,9 @@ export const GameConstant = Object.freeze({
   PIPE_HEALTH_SCALE_X: 8,
   PIPE_HEALTH_SCALE_Y: 24,
 
+  //UI
+  SCALE_DISTANCE_MESS: 300,
+
   //Collider
   DEBUG_COLLIDER: false
-
 });
