@@ -10,6 +10,7 @@ export class InputManager {
     static _registerDOMEvents() {
         window.addEventListener("mouseup", this._mouseUpEventHandler.bind(this), false);
         window.addEventListener("keyup", this._keyUpEventHandle.bind(this), false);
+        window.addEventListener("touchend", this.touchendEventHandle.bind(this), false);
     }
 
     static _mouseUpEventHandler(e) {
@@ -23,9 +24,14 @@ export class InputManager {
             this.emitter.emit(InputEvent.SpaceUp);
         }
     }
+
+    static touchendEventHandle(e) {
+        this.emitter.emit(InputEvent.TouchEnd);
+    }
 }
 
 export const InputEvent = Object.freeze({
-    SpaceUp: "spaceup",
-    MouseUp: "mouseup"
+    SpaceUp: "inputevent:spaceup",
+    MouseUp: "inputevent:mouseup",
+    TouchEnd: "inputevent:touchend"
 });  
