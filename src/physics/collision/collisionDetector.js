@@ -1,3 +1,4 @@
+import { Game } from "../../game";
 import { GameConstant } from "../../gameConstant";
 import { GameState } from "../../scenes/gameState";
 import { ColliderTag } from "./colliderTag";
@@ -69,7 +70,7 @@ export default class CollisionDetector {
     }
 
     _checkDragonOutOfScreen() {
-        if (this.dragonCollider.getBounding().y < 0 || this.dragonCollider.getBounding().y + this.dragonCollider.height / 2 > GameConstant.GAME_HEIGHT) {
+        if (this.dragonCollider.getBounding().y < 0 || this.dragonCollider.getBounding().y + this.dragonCollider.height / 2 > Game.height) {
             if (this.dragonCollider.enable === true) {
                 this.dragonCollider.emit(CollisionDetectorEvent.Colliding);
             }
