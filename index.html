@@ -1,13 +1,14 @@
 <!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Demo</title><style>body {
-          background-color: #73c8a9;
-          font-family: "Press Start 2P", cursive;
-          /* background-image: linear-gradient(to right, #72c89a, #373b44); */
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
         }
 
       #game {
         margin: 0;
         padding: 0;
         background: black;
+        overflow: hidden;
       }</style><script defer="defer">/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -4344,7 +4345,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _manifest_assets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./manifest/assets */ "./src/manifest/assets.js");
 /* harmony import */ var _scenes_playScene__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scenes/playScene */ "./src/scenes/playScene.js");
 /* harmony import */ var _input_inputManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./input/inputManager */ "./src/input/inputManager.js");
-/* harmony import */ var _objects_ui_lossLevelUI__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./objects/ui/lossLevelUI */ "./src/objects/ui/lossLevelUI.js");
 var __async = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -4379,13 +4379,12 @@ class Game {
       backgroundColor: 1087931,
       resolution: 1
     });
-    this.app.renderer.view.style.position = "absolute";
-    this.app.renderer.view.style.top = "50%";
-    this.app.renderer.view.style.left = "50%";
-    this.app.renderer.view.style.transform = "translate(-50%,-50%)";
-    this.app.renderer.view.style.border = "1px solid #d8d8d8";
     document.body.appendChild(this.app.view);
-    this.resize(_gameConstant__WEBPACK_IMPORTED_MODULE_1__.GameConstant.GAME_WIDTH, _gameConstant__WEBPACK_IMPORTED_MODULE_1__.GameConstant.GAME_HEIGHT);
+    const viewStyle = this.app.view.style;
+    viewStyle.position = "absolute";
+    viewStyle.display = "block";
+    viewStyle.padding = "0px 0px 0px 0px";
+    this.resize(window.innerWidth, window.innerHeight);
     this._loadGameAssets().then(() => {
       this._initInputHandle();
       this._initScene();
@@ -4398,10 +4397,16 @@ class Game {
     let style = this.app.view.style;
     this.windowWidth = width;
     this.windowHeight = height;
-    this.app.view.width = this.windowWidth;
-    this.app.view.height = this.windowHeight;
+    let ratio = 1;
+    this.width = this.windowWidth * ratio;
+    this.height = this.windowHeight * ratio;
+    this.app.view.width = this.width;
+    this.app.view.height = this.height;
+    this.ratioWidth = window.innerWidth / _gameConstant__WEBPACK_IMPORTED_MODULE_1__.GameConstant.GAME_WIDTH;
+    this.ratioHeight = window.innerHeight / _gameConstant__WEBPACK_IMPORTED_MODULE_1__.GameConstant.GAME_HEIGHT;
     this.app.resizeTo = this.app.view;
     this.app.resize();
+    this.playScene && this.playScene.resize();
   }
   static _loadGameAssets() {
     return __async(this, null, function* () {
@@ -4432,6 +4437,9 @@ class Game {
 }
 window.onload = function() {
   Game.init();
+  window.onresize = () => {
+    Game.resize(window.innerWidth, window.innerHeight);
+  };
 };
 
 
@@ -4449,8 +4457,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   GameConstant: () => (/* binding */ GameConstant)
 /* harmony export */ });
 const GameConstant = Object.freeze({
-  GAME_WIDTH: 1280,
-  GAME_HEIGHT: 720,
+  GAME_WIDTH: 720,
+  GAME_HEIGHT: 1280,
   //Key UI Manager
   StartUI: "uimanagerkey:start",
   PlayingUI: "uimanagerkey:playing",
@@ -4461,8 +4469,8 @@ const GameConstant = Object.freeze({
   WinUI: "uimanagerkey:win",
   LossUI: "uimanagerkey:loss",
   //Boss
-  BOSS_WIDTH: 304,
-  BOSS_HEIGHT: 336,
+  BOSS_WIDTH: 160,
+  BOSS_HEIGHT: 480,
   BOSS_X: 760,
   BOSS_Y: 340,
   EXPLOSION_X: 760,
@@ -4470,20 +4478,20 @@ const GameConstant = Object.freeze({
   //Dragon
   DRAGON_X: 64,
   DRAGON_Y: 306,
-  DRAGON_WIDTH: 76,
-  DRAGON_HEIGHT: 54,
+  DRAGON_WIDTH: 52,
+  DRAGON_HEIGHT: 112,
   DRAGON_VY: 0,
   GRAVITY: 9.81,
   MAX_ACCELERATION: 16,
   FORCE: -8,
   ACCELERATION_SCALE: 0.05,
   //Dragon Fire
-  DRAGON_FIRE_WIDTH: 72,
-  DRAGON_FIRE_HEIGHT: 30,
+  DRAGON_FIRE_WIDTH: 36,
+  DRAGON_FIRE_HEIGHT: 69,
   DRAGON_FIRE_SPEED: 5,
   //Boss Fire
-  BOSS_FIRE_WIDTH: 72,
-  BOSS_FIRE_HEIGHT: 30,
+  BOSS_FIRE_WIDTH: 52,
+  BOSS_FIRE_HEIGHT: 42,
   BOSS_FIRE_X: 780,
   BOSS_FIRE_Y: 420,
   BOSS_FIRE_SPEED: 5,
@@ -4493,7 +4501,7 @@ const GameConstant = Object.freeze({
   BOSS_HEALTH_SCALE_X: 50,
   BOSS_HEALTH_SCALE_Y: 50,
   //Pipe
-  PIPE_WIDTH: 52,
+  PIPE_WIDTH: 32,
   PIPE_HEIGHT: 640,
   DISTANCE_PIPE: 160,
   PIPE_X: 1080,
@@ -4532,6 +4540,7 @@ class InputManager {
   static _registerDOMEvents() {
     window.addEventListener("mouseup", this._mouseUpEventHandler.bind(this), false);
     window.addEventListener("keyup", this._keyUpEventHandle.bind(this), false);
+    window.addEventListener("touchend", this.touchendEventHandle.bind(this), false);
   }
   static _mouseUpEventHandler(e) {
     if (e.which == 1) {
@@ -4543,10 +4552,14 @@ class InputManager {
       this.emitter.emit(InputEvent.SpaceUp);
     }
   }
+  static touchendEventHandle(e) {
+    this.emitter.emit(InputEvent.TouchEnd);
+  }
 }
 const InputEvent = Object.freeze({
-  SpaceUp: "spaceup",
-  MouseUp: "mouseup"
+  SpaceUp: "inputevent:spaceup",
+  MouseUp: "inputevent:mouseup",
+  TouchEnd: "inputevent:touchend"
 });
 
 
@@ -4623,15 +4636,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../spawners/spawner */ "./src/spawners/spawner.js");
 /* harmony import */ var _objects_pipe_pipeBottom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../objects/pipe/pipeBottom */ "./src/objects/pipe/pipeBottom.js");
 /* harmony import */ var _objects_dragon_dragonObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../objects/dragon/dragonObject */ "./src/objects/dragon/dragonObject.js");
-/* harmony import */ var _objects_dragon_dragonfire__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../objects/dragon/dragonfire */ "./src/objects/dragon/dragonfire.js");
-/* harmony import */ var _input_inputManager__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../input/inputManager */ "./src/input/inputManager.js");
-/* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../gameConstant */ "./src/gameConstant.js");
-/* harmony import */ var _objects_boss_bossObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../objects/boss/bossObject */ "./src/objects/boss/bossObject.js");
-/* harmony import */ var _scenes_gameState__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../scenes/gameState */ "./src/scenes/gameState.js");
-/* harmony import */ var _objects_boss_BossFireManager__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../objects/boss/BossFireManager */ "./src/objects/boss/BossFireManager.js");
-
-
-
+/* harmony import */ var _objects_boss_bossObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../objects/boss/bossObject */ "./src/objects/boss/bossObject.js");
+/* harmony import */ var _scenes_gameState__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../scenes/gameState */ "./src/scenes/gameState.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../game */ "./src/game.js");
 
 
 
@@ -4645,11 +4652,9 @@ class LevelManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   constructor() {
     super("level");
     this.dataDragonFire = {};
-    this.positionDragon = {};
     this.dataBoss = {};
     this.dataBossFire = {};
     this.isDonePipe = false;
-    _input_inputManager__WEBPACK_IMPORTED_MODULE_7__.InputManager.emitter.on(_input_inputManager__WEBPACK_IMPORTED_MODULE_7__.InputEvent.MouseUp, this.spawnDragonFire, this);
     this._initSpawner();
   }
   loadLevel(jsonData) {
@@ -4660,16 +4665,16 @@ class LevelManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     pipeData.forEach((data) => {
       let pipeTop = this.pipeTopSpawner.spawn(this);
       let pipeBottom = this.pipeBottomSpawner.spawn(this);
-      pipeTop.x = data.x;
-      pipeTop.y = data.yTop;
-      pipeTop.width = data.width;
-      pipeTop.height = data.height;
+      pipeTop.x = data.x * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioWidth;
+      pipeTop.y = data.yTop * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioHeight;
+      pipeTop.width = data.width * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioWidth;
+      pipeTop.height = data.height * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioHeight;
       pipeTop.v = data.velocity;
       pipeTop.health = data.health;
-      pipeBottom.x = data.x;
-      pipeBottom.y = data.yBottom;
-      pipeBottom.width = data.width;
-      pipeBottom.height = data.height;
+      pipeBottom.x = data.x * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioWidth;
+      pipeBottom.y = data.yBottom * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioHeight;
+      pipeBottom.width = data.width * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioWidth;
+      pipeBottom.height = data.height * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioHeight;
       pipeBottom.v = data.velocity;
       pipeBottom.health = data.health;
       this.pipeTopObjects.push(pipeTop);
@@ -4685,10 +4690,6 @@ class LevelManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
       pipeTop.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_3__.SpawningEvent.Despawn);
       pipeBottom.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_3__.SpawningEvent.Despawn);
     }
-    for (let i = this.dragonFireObjects.length - 1; i >= 0; i--) {
-      let dragonFire = this.dragonFireObjects[i];
-      dragonFire.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_3__.SpawningEvent.Despawn);
-    }
     this.dragon.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_3__.SpawningEvent.Despawn);
     this.boss.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_3__.SpawningEvent.Despawn);
   }
@@ -4699,9 +4700,6 @@ class LevelManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.pipeBottomSpawner = new _spawners_containerSpawner__WEBPACK_IMPORTED_MODULE_1__.ContainerSpawner();
     this.pipeBottomSpawner.init(this.createPipeBottom, 9);
     this.pipeBottomObjects = [];
-    this.dragonFireSpawner = new _spawners_containerSpawner__WEBPACK_IMPORTED_MODULE_1__.ContainerSpawner();
-    this.dragonFireSpawner.init(this.createDragonFire, 20);
-    this.dragonFireObjects = [];
   }
   createPipeTop() {
     return new _objects_pipe_pipeTop__WEBPACK_IMPORTED_MODULE_2__.PipeTop();
@@ -4709,51 +4707,24 @@ class LevelManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   createPipeBottom() {
     return new _objects_pipe_pipeBottom__WEBPACK_IMPORTED_MODULE_4__.PipeBottom();
   }
-  createDragonFire() {
-    return new _objects_dragon_dragonfire__WEBPACK_IMPORTED_MODULE_6__.DragonFire();
-  }
   createDragon() {
-    this.dragon = new _objects_dragon_dragonObject__WEBPACK_IMPORTED_MODULE_5__.Dragon();
+    this.dragon = new _objects_dragon_dragonObject__WEBPACK_IMPORTED_MODULE_5__.Dragon(this.dataDragonFire);
     this.addChild(this.dragon);
-    this.positionDragon = this.dragon.getPosition();
     this.dragon.on(_objects_dragon_dragonObject__WEBPACK_IMPORTED_MODULE_5__.DragonEvent.Colliding, this._onLossLevel, this);
   }
   createBoss() {
-    this.boss = new _objects_boss_bossObject__WEBPACK_IMPORTED_MODULE_9__.Boss(this.dataBossFire);
-    this.boss.x = this.dataBoss.x;
-    this.boss.y = this.dataBoss.y;
-    this.boss.width = this.dataBoss.width;
-    this.boss.height = this.dataBoss.height;
+    this.boss = new _objects_boss_bossObject__WEBPACK_IMPORTED_MODULE_6__.Boss(this.dataBossFire);
+    this.boss.x = this.dataBoss.x * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioWidth;
+    this.boss.y = this.dataBoss.y * _game__WEBPACK_IMPORTED_MODULE_8__.Game.ratioHeight;
     this.boss.health = this.dataBoss.health;
     this.addChild(this.boss);
-    this.boss.on(_scenes_gameState__WEBPACK_IMPORTED_MODULE_10__.GameState.WinLevel, this._onWinLevel, this);
+    this.boss.on(_scenes_gameState__WEBPACK_IMPORTED_MODULE_7__.GameState.WinLevel, this._onWinLevel, this);
     this.boss.visible = false;
-  }
-  spawnDragonFire() {
-    let dragonFire = this.dragonFireSpawner.spawn(this);
-    dragonFire.x = this.positionDragon.x + _gameConstant__WEBPACK_IMPORTED_MODULE_8__.GameConstant.DRAGON_FIRE_WIDTH;
-    dragonFire.y = this.positionDragon.y;
-    dragonFire.v = this.dataDragonFire.velocity;
-    dragonFire.once(_objects_dragon_dragonfire__WEBPACK_IMPORTED_MODULE_6__.DragonFireEvent.Colliding, this.despawnDragonFire, this);
-    dragonFire.isCollide = true;
-    this.dragonFireObjects.push(dragonFire);
-  }
-  despawnDragonFire(bullet) {
-    if (this.dragonFireObjects.length > 0) {
-      let index = this.dragonFireObjects.indexOf(bullet);
-      if (index >= 0) {
-        this.dragonFireObjects.splice(index, 1);
-        bullet.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_3__.SpawningEvent.Despawn);
-      }
-    }
   }
   update(delta) {
     for (let i = 0; i < this.pipeTopObjects.length; i++) {
       this.pipeTopObjects[i].update(delta);
       this.pipeBottomObjects[i].update(delta);
-    }
-    for (let i = 0; i < this.dragonFireObjects.length; i++) {
-      this.dragonFireObjects[i].update(delta);
     }
     this.dragon.update(delta);
     if (this.isDonePipe) {
@@ -4773,11 +4744,11 @@ class LevelManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   }
   _onLossLevel() {
     this.reset();
-    this.emit(_scenes_gameState__WEBPACK_IMPORTED_MODULE_10__.GameState.LossLevel, this);
+    this.emit(_scenes_gameState__WEBPACK_IMPORTED_MODULE_7__.GameState.LossLevel, this);
   }
   _onWinLevel() {
     this.reset();
-    this.emit(_scenes_gameState__WEBPACK_IMPORTED_MODULE_10__.GameState.WinLevel, this);
+    this.emit(_scenes_gameState__WEBPACK_IMPORTED_MODULE_7__.GameState.WinLevel, this);
   }
 }
 
@@ -4869,6 +4840,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/index.mjs");
 /* harmony import */ var _bossFire__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bossFire */ "./src/objects/boss/bossFire.js");
 /* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
+/* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../spawners/spawner */ "./src/spawners/spawner.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+
+
 
 
 
@@ -4888,16 +4863,18 @@ class BossFireManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     for (let i = 0; i < _gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.BOSS_FIRE_QUANTITY; i++) {
       i % 2 == 0 ? this.bossFire = new _bossFire__WEBPACK_IMPORTED_MODULE_1__.BossFire(_gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.BOSS_FIRE_ANGLE * i) : this.bossFire = new _bossFire__WEBPACK_IMPORTED_MODULE_1__.BossFire(-_gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.BOSS_FIRE_ANGLE * i);
       this.addChild(this.bossFire);
+      this.bossFire.isCollide = true;
       this.bossFires.push(this.bossFire);
     }
   }
   update(delta) {
     for (let i = 0; i < _gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.BOSS_FIRE_QUANTITY; i++) {
+      this.bossFires[i].update(delta);
       if (i % 2 == 0) {
-        this.bossFires[i].x -= this.v * delta;
+        this.bossFires[i].x -= this.v * delta * _game__WEBPACK_IMPORTED_MODULE_4__.Game.ratioWidth;
         this.bossFires[i].y -= _gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.BOSS_FIRE_VY * i * delta;
       } else {
-        this.bossFires[i].x -= this.v * delta;
+        this.bossFires[i].x -= this.v * delta * _game__WEBPACK_IMPORTED_MODULE_4__.Game.ratioWidth;
         this.bossFires[i].y -= -_gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.BOSS_FIRE_VY * i * delta;
       }
     }
@@ -4926,6 +4903,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../physics/collision/collisionDetector */ "./src/physics/collision/collisionDetector.js");
 /* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
 /* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../spawners/spawner */ "./src/spawners/spawner.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+
 
 
 
@@ -4936,22 +4915,34 @@ class BossFire extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite {
   constructor(angle) {
     super(pixi_js__WEBPACK_IMPORTED_MODULE_0__.Texture.from("bossFire"));
     this.angle = angle;
-    this.width = _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.BOSS_FIRE_WIDTH;
-    this.height = _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.BOSS_FIRE_HEIGHT;
+    this.isCollide = false;
+    this.width = _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.BOSS_FIRE_WIDTH * _game__WEBPACK_IMPORTED_MODULE_6__.Game.ratioWidth;
+    this.height = _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.BOSS_FIRE_HEIGHT * _game__WEBPACK_IMPORTED_MODULE_6__.Game.ratioHeight;
     this.rotation = this.angle;
     this._initCollider();
     this.on(_spawners_spawner__WEBPACK_IMPORTED_MODULE_5__.SpawningEvent.Despawn, () => {
       this.bossFireCollider.enable = false;
     });
+    this.on(_spawners_spawner__WEBPACK_IMPORTED_MODULE_5__.SpawningEvent.Spawn, () => {
+      this.bossFireCollider.enable = true;
+    });
   }
   _initCollider() {
     this.bossFireCollider = new _physics_collision_collider__WEBPACK_IMPORTED_MODULE_1__.Collider(_physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.BossFire, 0, 0, this.width, this.height * 2);
-    this.bossFireCollider.enable = true;
+    this.bossFireCollider.enable = false;
     this.addChild(this.bossFireCollider);
     _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_3__["default"]._instance.addCollider(_physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.BossFire, this.bossFireCollider);
     this.bossFireCollider.on(_physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_3__.CollisionDetectorEvent.Colliding, this._onCollide, this);
   }
   update(delta) {
+    this._checkIsCollide();
+  }
+  _checkIsCollide() {
+    if (this.isCollide) {
+      this.bossFireCollider.enable = true;
+    } else {
+      this.bossFireCollider.enable = false;
+    }
   }
   _onCollide() {
   }
@@ -4980,6 +4971,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scenes_gameState__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../scenes/gameState */ "./src/scenes/gameState.js");
 /* harmony import */ var _spawners_containerSpawner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../spawners/containerSpawner */ "./src/spawners/containerSpawner.js");
 /* harmony import */ var _BossFireManager__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./BossFireManager */ "./src/objects/boss/BossFireManager.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+
 
 
 
@@ -5009,8 +5002,8 @@ class Boss extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   }
   _initSprite() {
     this.sprite = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite(pixi_js__WEBPACK_IMPORTED_MODULE_0__.Texture.from("boss"));
-    this.sprite.width = _gameConstant__WEBPACK_IMPORTED_MODULE_3__.GameConstant.BOSS_WIDTH;
-    this.sprite.height = _gameConstant__WEBPACK_IMPORTED_MODULE_3__.GameConstant.BOSS_HEIGHT;
+    this.sprite.width = _gameConstant__WEBPACK_IMPORTED_MODULE_3__.GameConstant.BOSS_WIDTH * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioWidth;
+    this.sprite.height = _gameConstant__WEBPACK_IMPORTED_MODULE_3__.GameConstant.BOSS_HEIGHT * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioHeight;
     this.addChild(this.sprite);
   }
   _initHealth() {
@@ -5114,6 +5107,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _input_inputManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../input/inputManager */ "./src/input/inputManager.js");
 /* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
 /* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../spawners/spawner */ "./src/spawners/spawner.js");
+/* harmony import */ var _dragonfire__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./dragonfire */ "./src/objects/dragon/dragonfire.js");
+/* harmony import */ var _spawners_containerSpawner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../spawners/containerSpawner */ "./src/spawners/containerSpawner.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+/* harmony import */ var _particle_particleController__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../particle/particleController */ "./src/objects/particle/particleController.js");
+
+
+
+
 
 
 
@@ -5125,45 +5126,118 @@ const DragonEvent = Object.freeze({
   Colliding: "dragonevent:colliding"
 });
 class Dragon extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
-  constructor() {
+  constructor(dataDragonFire) {
     super();
+    this.dataDragonFire = dataDragonFire;
     this.acceleration = 0;
     this.vy = _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_VY;
+    this.interval = 20;
+    this.spawnTime = 0;
     this.dragonPosition = {
       x: null,
       y: null
     };
     this._initSprite();
     this._initCollider();
+    this._initDragonFireSpawner();
+    this._initParticleSpawner();
     this.on(_spawners_spawner__WEBPACK_IMPORTED_MODULE_6__.SpawningEvent.Despawn, () => {
       this.dragonCollider.enable = false;
     });
     _input_inputManager__WEBPACK_IMPORTED_MODULE_4__.InputManager.emitter.on(_input_inputManager__WEBPACK_IMPORTED_MODULE_4__.InputEvent.SpaceUp, this._onKeyUp, this);
+    _input_inputManager__WEBPACK_IMPORTED_MODULE_4__.InputManager.emitter.on(_input_inputManager__WEBPACK_IMPORTED_MODULE_4__.InputEvent.TouchEnd, this._onKeyUp, this);
   }
   _initSprite() {
     this.dragon = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite(pixi_js__WEBPACK_IMPORTED_MODULE_0__.Texture.from("dragon_05"));
-    this.dragon.width = _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_WIDTH;
-    this.dragon.height = _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_HEIGHT;
-    this.dragon.position.set(_gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_X, _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_Y);
+    this.dragon.anchor.set(0.5);
+    this.dragon.width = _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_WIDTH * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioWidth;
+    this.dragon.height = _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_HEIGHT * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioHeight;
+    this.position.set(_gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_X * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioWidth, _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_Y * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioHeight);
     this.addChild(this.dragon);
   }
   _initCollider() {
-    this.dragonCollider = new _physics_collision_collider__WEBPACK_IMPORTED_MODULE_1__.Collider(_physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.Dragon, 0, 0, _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_WIDTH * 1.25, _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_HEIGHT * 2);
+    this.dragonCollider = new _physics_collision_collider__WEBPACK_IMPORTED_MODULE_1__.Collider(
+      _physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.Dragon,
+      this.dragon.x - this.dragon.width / 2,
+      this.dragon.y - this.dragon.height / 2,
+      this.dragon.width,
+      this.dragon.height
+    );
     this.dragon.addChild(this.dragonCollider);
     _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_3__["default"].instance.addCollider(_physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.Dragon, this.dragonCollider);
     this.dragonCollider.on(_physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_3__.CollisionDetectorEvent.Colliding, this._oncollide, this);
   }
+  _initDragonFireSpawner() {
+    this.dragonFireSpawner = new _spawners_containerSpawner__WEBPACK_IMPORTED_MODULE_8__.ContainerSpawner();
+    this.dragonFireSpawner.init(this.createDragonFire, 30);
+    this.dragonFireObjects = [];
+  }
+  _initParticleSpawner() {
+    this.particleSpawner = new _spawners_containerSpawner__WEBPACK_IMPORTED_MODULE_8__.ContainerSpawner();
+    this.particleSpawner.init(this.createParticle, 5);
+  }
+  createDragonFire() {
+    return new _dragonfire__WEBPACK_IMPORTED_MODULE_7__.DragonFire();
+  }
+  createParticle() {
+    return new _particle_particleController__WEBPACK_IMPORTED_MODULE_10__.ParticleController();
+  }
+  spawnDragonFire() {
+    let dragonFire = this.dragonFireSpawner.spawn(this.parent);
+    dragonFire.x = this.x + _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_FIRE_WIDTH;
+    dragonFire.y = this.y;
+    dragonFire.v = this.dataDragonFire.velocity * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioWidth;
+    dragonFire.once(_dragonfire__WEBPACK_IMPORTED_MODULE_7__.DragonFireEvent.Colliding, this.despawnDragonFire, this);
+    dragonFire.once(_dragonfire__WEBPACK_IMPORTED_MODULE_7__.DragonFireEvent.WallColliding, this.despawnDragonFireOutScreen, this);
+    dragonFire.isCollide = true;
+    this.dragonFireObjects.push(dragonFire);
+  }
+  despawnDragonFire(bullet) {
+    if (this.dragonFireObjects.length > 0) {
+      let index = this.dragonFireObjects.indexOf(bullet);
+      if (index >= 0) {
+        this.dragonFireObjects.splice(index, 1);
+        let fx = this.particleSpawner.spawn(bullet.parent);
+        fx.x = bullet.x;
+        fx.y = bullet.y;
+        bullet.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_6__.SpawningEvent.Despawn);
+      }
+    }
+  }
+  despawnDragonFireOutScreen(bullet) {
+    if (this.dragonFireObjects.length > 0) {
+      let index = this.dragonFireObjects.indexOf(bullet);
+      if (index >= 0) {
+        this.dragonFireObjects.splice(index, 1);
+        bullet.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_6__.SpawningEvent.Despawn);
+      }
+    }
+  }
+  spawnParticle(parent) {
+    console.log(parent.x);
+    let particle = this.particleSpawner.spawn(parent);
+    particle.x = parent.x + _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.DRAGON_FIRE_WIDTH;
+    particle.y = parent.y;
+  }
   update(delta) {
-    this.acceleration += delta * _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.GRAVITY * _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.ACCELERATION_SCALE;
+    this.acceleration += delta * _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.GRAVITY * _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.ACCELERATION_SCALE * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioHeight;
     if (this.acceleration > _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.MAX_ACCELERATION) {
       this.acceleration = _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.MAX_ACCELERATION;
     }
-    this.dragon.y += this.acceleration;
-    this.dragonPosition.x = this.dragon.x;
-    this.dragonPosition.y = this.dragon.y;
+    this.y += this.acceleration;
+    this.dragonPosition.x = this.x;
+    this.dragonPosition.y = this.y;
+    this.spawnTime += delta;
+    if (this.spawnTime >= this.interval) {
+      this.spawnDragonFire();
+      this.spawnTime = 0;
+    }
+    for (let i = 0; i < this.dragonFireObjects.length; i++) {
+      this.dragonFireObjects[i].update(delta);
+    }
   }
   _onKeyUp() {
-    this.acceleration = _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.FORCE;
+    this.acceleration = _gameConstant__WEBPACK_IMPORTED_MODULE_5__.GameConstant.FORCE * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioHeight;
   }
   getPosition() {
     return this.dragonPosition;
@@ -5193,8 +5267,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../physics/collision/colliderTag */ "./src/physics/collision/colliderTag.js");
 /* harmony import */ var _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../physics/collision/collisionDetector */ "./src/physics/collision/collisionDetector.js");
 /* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
-/* harmony import */ var _particle_particleController__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../particle/particleController */ "./src/objects/particle/particleController.js");
-/* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../spawners/spawner */ "./src/spawners/spawner.js");
+/* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../spawners/spawner */ "./src/spawners/spawner.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../game */ "./src/game.js");
 
 
 
@@ -5203,7 +5277,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const DragonFireEvent = Object.freeze({
-  Colliding: "dragonfireevent:colliding"
+  Colliding: "dragonfireevent:colliding",
+  WallColliding: "dragonfireevent:wallcolliding"
 });
 class DragonFire extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   constructor() {
@@ -5211,58 +5286,40 @@ class DragonFire extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.v = 0;
     this._initSprite();
     this._initCollider();
-    this._initParticle();
-    this.isCollide = true;
-    this.on(_spawners_spawner__WEBPACK_IMPORTED_MODULE_6__.SpawningEvent.Despawn, () => {
+    this.on(_spawners_spawner__WEBPACK_IMPORTED_MODULE_5__.SpawningEvent.Spawn, () => {
+      this.dragonFireCollider.enable = true;
+      this.sprite.visible = true;
+    });
+    this.on(_spawners_spawner__WEBPACK_IMPORTED_MODULE_5__.SpawningEvent.Despawn, () => {
       this.dragonFireCollider.enable = false;
+      this.sprite.visible = false;
     });
   }
   _initSprite() {
     this.sprite = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite(pixi_js__WEBPACK_IMPORTED_MODULE_0__.Texture.from("dragonFire"));
-    this.sprite.width = _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.DRAGON_FIRE_WIDTH;
-    this.sprite.height = _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.DRAGON_FIRE_HEIGHT;
+    this.sprite.width = _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.DRAGON_FIRE_WIDTH * _game__WEBPACK_IMPORTED_MODULE_6__.Game.ratioWidth;
+    this.sprite.height = _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.DRAGON_FIRE_HEIGHT * _game__WEBPACK_IMPORTED_MODULE_6__.Game.ratioHeight;
     this.addChild(this.sprite);
   }
   _initCollider() {
-    this.dragonFireCollider = new _physics_collision_collider__WEBPACK_IMPORTED_MODULE_1__.Collider(_physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.DragonFire, 0, 0, _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.DRAGON_FIRE_WIDTH, _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.DRAGON_FIRE_HEIGHT);
+    this.dragonFireCollider = new _physics_collision_collider__WEBPACK_IMPORTED_MODULE_1__.Collider(_physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.DragonFire, 0, 0, this.sprite.width, this.sprite.height);
     this.dragonFireCollider.enable = false;
     this.sprite.addChild(this.dragonFireCollider);
     _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_3__["default"]._instance.addCollider(_physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.DragonFire, this.dragonFireCollider);
     this.dragonFireCollider.on(_physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_3__.CollisionDetectorEvent.Colliding, this._onCollide, this);
   }
-  _initParticle() {
-    this.particleContainer = new _particle_particleController__WEBPACK_IMPORTED_MODULE_5__.ParticleController();
-    this.addChild(this.particleContainer);
-  }
   update(delta) {
     this.x += delta * this.v;
     this._checkOutOfScreen();
-    this.checkIsCollide();
   }
   _checkOutOfScreen() {
-    if (this.x > _gameConstant__WEBPACK_IMPORTED_MODULE_4__.GameConstant.GAME_WIDTH) {
-      this.emit(DragonFireEvent.Colliding, this);
+    if (this.x > _game__WEBPACK_IMPORTED_MODULE_6__.Game.width - 50 * _game__WEBPACK_IMPORTED_MODULE_6__.Game.ratioWidth) {
+      this.emit(DragonFireEvent.WallColliding, this);
     }
   }
   _onCollide() {
-    this.isCollide = false;
-    this.particleContainer.enableParticle();
-    this.sprite.visible = false;
-    setTimeout(() => {
-      this._reset();
-    }, 310);
-  }
-  _reset() {
-    this.particleContainer.disEnableParticle();
-    this.sprite.visible = true;
     this.emit(DragonFireEvent.Colliding, this);
-  }
-  checkIsCollide() {
-    if (this.isCollide) {
-      this.dragonFireCollider.enable = true;
-    } else if (!this.isCollide) {
-      this.dragonFireCollider.enable = false;
-    }
+    this.sprite.visible = false;
   }
 }
 
@@ -5284,6 +5341,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/index.mjs");
 /* harmony import */ var _pixi_particle_emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/particle-emitter */ "./node_modules/@pixi/particle-emitter/lib/particle-emitter.es.js");
 /* harmony import */ var _assets_images_dragon_emitter_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../assets/images/dragon/emitter.json */ "./assets/images/dragon/emitter.json");
+/* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../spawners/spawner */ "./src/spawners/spawner.js");
+
 
 
 
@@ -5291,18 +5350,22 @@ class ParticleController extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.ParticleCo
   constructor() {
     super();
     this._initParticle();
+    this.on(_spawners_spawner__WEBPACK_IMPORTED_MODULE_3__.SpawningEvent.Spawn, () => {
+      this.enableParticle();
+    });
   }
   _initParticle() {
     this.texture = pixi_js__WEBPACK_IMPORTED_MODULE_0__.Texture.from("particle");
     this.emitter = new _pixi_particle_emitter__WEBPACK_IMPORTED_MODULE_1__.Emitter(this, _pixi_particle_emitter__WEBPACK_IMPORTED_MODULE_1__.upgradeConfig(/*#__PURE__*/ (_assets_images_dragon_emitter_json__WEBPACK_IMPORTED_MODULE_2___namespace_cache || (_assets_images_dragon_emitter_json__WEBPACK_IMPORTED_MODULE_2___namespace_cache = __webpack_require__.t(_assets_images_dragon_emitter_json__WEBPACK_IMPORTED_MODULE_2__, 2))), [this.texture]));
+    this.emitter.autoUpdate = true;
   }
   enableParticle() {
-    this.emitter.autoUpdate = true;
     this.emitter.emit = true;
-    this.emitter.playOnce();
+    this.emitter.playOnce(() => {
+      this.emit(_spawners_spawner__WEBPACK_IMPORTED_MODULE_3__.SpawningEvent.Despawn, this);
+    });
   }
   disEnableParticle() {
-    this.emitter.autoUpdate = false;
     this.emitter.emit = false;
     this.emitter.cleanup();
   }
@@ -5330,6 +5393,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../physics/collision/colliderTag */ "./src/physics/collision/colliderTag.js");
 /* harmony import */ var _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../physics/collision/collisionDetector */ "./src/physics/collision/collisionDetector.js");
 /* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../spawners/spawner */ "./src/spawners/spawner.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+
 
 
 
@@ -5372,7 +5437,7 @@ class PipeBottom extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite {
       return;
     }
     this.messHealth.text = this.health;
-    this.x -= this.v * delta;
+    this.x -= this.v * delta * _game__WEBPACK_IMPORTED_MODULE_6__.Game.ratioWidth;
   }
   _onCollide(collider) {
     this._updateHealth();
@@ -5412,6 +5477,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _physics_collision_colliderTag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../physics/collision/colliderTag */ "./src/physics/collision/colliderTag.js");
 /* harmony import */ var _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../physics/collision/collisionDetector */ "./src/physics/collision/collisionDetector.js");
 /* harmony import */ var _spawners_spawner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../spawners/spawner */ "./src/spawners/spawner.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+
 
 
 
@@ -5456,7 +5523,7 @@ class PipeTop extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite {
   }
   update(delta) {
     this.messHealth.text = this.health;
-    this.x -= this.v * delta;
+    this.x -= this.v * delta * _game__WEBPACK_IMPORTED_MODULE_6__.Game.ratioWidth;
     this._checkOutOfScreen();
   }
   _onCollide(collider) {
@@ -5572,6 +5639,11 @@ class UIManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
         break;
     }
   }
+  resize() {
+    this.startUI.resize();
+    this.playUI.resize();
+    this.lossLevelUI.resize();
+  }
 }
 
 
@@ -5636,9 +5708,9 @@ class LossLevelUI extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.visible = false;
   }
   resize() {
-    this.nameGame.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.windowWidth / 2 - this.nameGame.width / 2;
-    this.nameGame.y = _game__WEBPACK_IMPORTED_MODULE_1__.Game.windowHeight / 3;
-    this.restartMess.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.windowWidth / 2 - this.restartMess.width / 2;
+    this.nameGame.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.width / 2 - this.nameGame.width / 2;
+    this.nameGame.y = _game__WEBPACK_IMPORTED_MODULE_1__.Game.height / 3;
+    this.restartMess.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.width / 2 - this.restartMess.width / 2;
     this.restartMess.y = this.nameGame.y + 100;
   }
 }
@@ -5717,30 +5789,30 @@ class PlayUI extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.visible = false;
   }
   resize() {
-    this.layer_01.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_01.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_02.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_02.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_03.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_03.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_04.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_04.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_05.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_05.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_06.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_06.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_07.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_07.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_08.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_08.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_09.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_09.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_10.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_10.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_11.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_11.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
-    this.layer_12.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth;
-    this.layer_12.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight;
+    this.layer_01.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_01.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_02.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_02.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_03.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_03.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_04.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_04.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_05.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_05.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_06.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_06.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_07.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_07.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_08.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_08.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_09.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_09.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_10.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_10.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_11.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_11.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
+    this.layer_12.width = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width;
+    this.layer_12.height = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height;
   }
 }
 
@@ -5808,9 +5880,9 @@ class StartUI extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.visible = false;
   }
   resize() {
-    this.nameGame.x = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth / 2 - this.nameGame.width / 2;
-    this.nameGame.y = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowHeight / 3;
-    this.startMess.x = _game__WEBPACK_IMPORTED_MODULE_2__.Game.windowWidth / 2 - this.startMess.width / 2;
+    this.nameGame.x = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width / 2 - this.nameGame.width / 2;
+    this.nameGame.y = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height / 3;
+    this.startMess.x = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width / 2 - this.startMess.width / 2;
     this.startMess.y = this.nameGame.y + 100;
   }
 }
@@ -5910,8 +5982,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/index.mjs");
 /* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
-/* harmony import */ var _collisionDetector__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./collisionDetector */ "./src/physics/collision/collisionDetector.js");
-
 
 
 class Collider extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite {
@@ -5968,9 +6038,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   CollisionDetectorEvent: () => (/* binding */ CollisionDetectorEvent),
 /* harmony export */   "default": () => (/* binding */ CollisionDetector)
 /* harmony export */ });
-/* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
-/* harmony import */ var _scenes_gameState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../scenes/gameState */ "./src/scenes/gameState.js");
-/* harmony import */ var _colliderTag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./colliderTag */ "./src/physics/collision/colliderTag.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+/* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
+/* harmony import */ var _scenes_gameState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../scenes/gameState */ "./src/scenes/gameState.js");
+/* harmony import */ var _colliderTag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./colliderTag */ "./src/physics/collision/colliderTag.js");
+
 
 
 
@@ -5996,22 +6068,22 @@ class CollisionDetector {
   }
   addCollider(tag, col) {
     switch (tag) {
-      case _colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.Dragon:
+      case _colliderTag__WEBPACK_IMPORTED_MODULE_3__.ColliderTag.Dragon:
         this.dragonCollider = col;
         break;
-      case _colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.DragonFire:
+      case _colliderTag__WEBPACK_IMPORTED_MODULE_3__.ColliderTag.DragonFire:
         this.dragonFireCollider.push(col);
         break;
-      case _colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.PipeTop:
+      case _colliderTag__WEBPACK_IMPORTED_MODULE_3__.ColliderTag.PipeTop:
         this.pipeTopCollider.push(col);
         break;
-      case _colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.PipeBottom:
+      case _colliderTag__WEBPACK_IMPORTED_MODULE_3__.ColliderTag.PipeBottom:
         this.pipeBottomCollider.push(col);
         break;
-      case _colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.Boss:
+      case _colliderTag__WEBPACK_IMPORTED_MODULE_3__.ColliderTag.Boss:
         this.bossCollider = col;
         break;
-      case _colliderTag__WEBPACK_IMPORTED_MODULE_2__.ColliderTag.BossFire:
+      case _colliderTag__WEBPACK_IMPORTED_MODULE_3__.ColliderTag.BossFire:
         this.bossFireCollider.push(col);
         break;
       default:
@@ -6034,7 +6106,7 @@ class CollisionDetector {
     this._checkCollideDragonWithBossFire();
   }
   _checkDragonOutOfScreen() {
-    if (this.dragonCollider.getBounding().y < 0 || this.dragonCollider.getBounding().y + this.dragonCollider.height / 2 > _gameConstant__WEBPACK_IMPORTED_MODULE_0__.GameConstant.GAME_HEIGHT) {
+    if (this.dragonCollider.getBounding().y < 0 || this.dragonCollider.getBounding().y + this.dragonCollider.height / 2 > _game__WEBPACK_IMPORTED_MODULE_0__.Game.height) {
       if (this.dragonCollider.enable === true) {
         this.dragonCollider.emit(CollisionDetectorEvent.Colliding);
       }
@@ -6178,6 +6250,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _level_levelLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../level/levelLoader */ "./src/level/levelLoader.js");
 /* harmony import */ var _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../physics/collision/collisionDetector */ "./src/physics/collision/collisionDetector.js");
 /* harmony import */ var _level_levelManager__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../level/levelManager */ "./src/level/levelManager.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../game */ "./src/game.js");
+
 
 
 
@@ -6201,8 +6275,8 @@ class PlayScene extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
       fontSize: 40,
       fontWeight: 600
     });
-    this.nameGame = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.Text("Level: " + this.currentLevel, this.styleName);
-    this.addChild(this.nameGame);
+    this.levelMess = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.Text("Level: " + this.currentLevel, this.styleName);
+    this.addChild(this.levelMess);
   }
   _loadLevel() {
     this.dataLevel = _assets_levels_level_json__WEBPACK_IMPORTED_MODULE_3__[this.currentLevel - 1];
@@ -6257,7 +6331,7 @@ class PlayScene extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     });
   }
   update(delta) {
-    this.nameGame.text = "Level: " + this.currentLevel;
+    this.levelMess.text = "Level: " + this.currentLevel;
     if (this.gameState === _gameState__WEBPACK_IMPORTED_MODULE_2__.GameState.Playing) {
       _physics_collision_collisionDetector__WEBPACK_IMPORTED_MODULE_5__["default"].instance.update(delta);
       this.level.update(delta);
@@ -6276,6 +6350,10 @@ class PlayScene extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.uIManager.show(_gameState__WEBPACK_IMPORTED_MODULE_2__.GameState.WinLevel);
   }
   _onEnd() {
+  }
+  resize() {
+    this.levelMess.position.set(0, 0);
+    this.uIManager.resize();
   }
 }
 
@@ -41673,7 +41751,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"alpha":{"start":0.8,"end":0.1},"scale":{"start":1,"end":0.3,"minimumScaleMultiplier":1},"color":{"start":"#fb1010","end":"#f5b830"},"speed":{"start":200,"end":100,"minimumSpeedMultiplier":1},"acceleration":{"x":0,"y":0},"maxSpeed":0,"startRotation":{"min":0,"max":360},"noRotation":false,"rotationSpeed":{"min":0,"max":0},"lifetime":{"min":0.5,"max":0.5},"blendMode":"normal","frequency":0.008,"emitterLifetime":0.31,"maxParticles":1000,"pos":{"x":0,"y":0},"addAtBack":false,"spawnType":"circle","spawnCircle":{"x":0,"y":0,"r":10}}');
+module.exports = JSON.parse('{"alpha":{"start":0.8,"end":0.1},"scale":{"start":1,"end":0.3,"minimumScaleMultiplier":1},"color":{"start":"#fb1010","end":"#f5b830"},"speed":{"start":200,"end":100,"minimumSpeedMultiplier":1},"acceleration":{"x":0,"y":0},"maxSpeed":0,"startRotation":{"min":0,"max":360},"noRotation":false,"rotationSpeed":{"min":0,"max":0},"lifetime":{"min":0.5,"max":0.5},"blendMode":"normal","frequency":0.008,"emitterLifetime":0.31,"maxParticles":100,"addAtBack":false,"spawnType":"circle","spawnCircle":{"x":0,"y":0,"r":10}}');
 
 /***/ }),
 
@@ -41684,7 +41762,7 @@ module.exports = JSON.parse('{"alpha":{"start":0.8,"end":0.1},"scale":{"start":1
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('[{"level":1,"num_of_pipe":3,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":3,"health":150}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":3,"health":150}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":20}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":7}},{"type":"boss_fire","data":{"x":960,"y":460,"width":72,"height":30,"velocityX":6}}]},{"level":2,"num_of_pipe":6,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":4,"health":150}},{"type":"pipe","data":{"x":2280,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":2680,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":4,"health":200}},{"type":"pipe","data":{"x":3080,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":4,"health":200}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":25}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":6}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":7}}]},{"level":3,"num_of_pipe":9,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":150}},{"type":"pipe","data":{"x":1880,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":150}},{"type":"pipe","data":{"x":2280,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":200}},{"type":"pipe","data":{"x":2680,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":200}},{"type":"pipe","data":{"x":3080,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":200}},{"type":"pipe","data":{"x":3480,"yTop":-600,"yBottom":200,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":3880,"yTop":-300,"yBottom":500,"width":52,"height":640,"velocity":5,"health":250}},{"type":"pipe","data":{"x":4280,"yTop":-450,"yBottom":350,"width":52,"height":640,"velocity":5,"health":250}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":30}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":7}}]}]');
+module.exports = JSON.parse('[{"level":1,"num_of_pipe":3,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"boss","data":{"x":570,"y":720,"width":304,"height":336,"health":20}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":960,"y":460,"width":72,"height":30,"velocityX":6}}]},{"level":2,"num_of_pipe":6,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1680,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":4,"health":200}},{"type":"pipe","data":{"x":1880,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":4,"health":200}},{"type":"pipe","data":{"x":2080,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":4,"health":200}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":25}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":6}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":5}}]},{"level":3,"num_of_pipe":9,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":30}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":7}}]}]');
 
 /***/ })
 
