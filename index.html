@@ -4511,6 +4511,8 @@ const GameConstant = Object.freeze({
   PIPE_HEALTH_HEIGHT: 24,
   PIPE_HEALTH_SCALE_X: 8,
   PIPE_HEALTH_SCALE_Y: 24,
+  //UI
+  SCALE_DISTANCE_MESS: 300,
   //Collider
   DEBUG_COLLIDER: false
 });
@@ -5506,7 +5508,7 @@ class PipeTop extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite {
   }
   _initHealth() {
     this.style = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.TextStyle({
-      fontFamily: "Futura",
+      fontFamily: "Times New Roman",
       fontSize: 22,
       fill: "black"
     });
@@ -5642,6 +5644,7 @@ class UIManager extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   resize() {
     this.startUI.resize();
     this.playUI.resize();
+    this.winLevelUI.resize();
     this.lossLevelUI.resize();
   }
 }
@@ -5663,6 +5666,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/index.mjs");
 /* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+/* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
+
 
 
 const LossLevelUIEvent = Object.freeze({
@@ -5711,7 +5716,7 @@ class LossLevelUI extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.nameGame.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.width / 2 - this.nameGame.width / 2;
     this.nameGame.y = _game__WEBPACK_IMPORTED_MODULE_1__.Game.height / 3;
     this.restartMess.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.width / 2 - this.restartMess.width / 2;
-    this.restartMess.y = this.nameGame.y + 100;
+    this.restartMess.y = this.nameGame.y + _gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.SCALE_DISTANCE_MESS * _game__WEBPACK_IMPORTED_MODULE_1__.Game.ratioHeight;
   }
 }
 
@@ -5883,7 +5888,7 @@ class StartUI extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.nameGame.x = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width / 2 - this.nameGame.width / 2;
     this.nameGame.y = _game__WEBPACK_IMPORTED_MODULE_2__.Game.height / 3;
     this.startMess.x = _game__WEBPACK_IMPORTED_MODULE_2__.Game.width / 2 - this.startMess.width / 2;
-    this.startMess.y = this.nameGame.y + 100;
+    this.startMess.y = this.nameGame.y + _gameConstant__WEBPACK_IMPORTED_MODULE_1__.GameConstant.SCALE_DISTANCE_MESS * _game__WEBPACK_IMPORTED_MODULE_2__.Game.ratioHeight;
   }
 }
 
@@ -5904,6 +5909,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/index.mjs");
 /* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../game */ "./src/game.js");
+/* harmony import */ var _gameConstant__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../gameConstant */ "./src/gameConstant.js");
+
 
 
 const WinLevelUIEvent = Object.freeze({
@@ -5960,9 +5967,9 @@ class WinLevelUI extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     this.nameGame.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.windowWidth / 2 - this.nameGame.width / 2;
     this.nameGame.y = _game__WEBPACK_IMPORTED_MODULE_1__.Game.windowHeight / 3;
     this.restartMess.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.windowWidth / 2 - this.restartMess.width / 2;
-    this.restartMess.y = this.nameGame.y + 100;
+    this.restartMess.y = this.nameGame.y + _gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.SCALE_DISTANCE_MESS * _game__WEBPACK_IMPORTED_MODULE_1__.Game.ratioHeight;
     this.nextMess.x = _game__WEBPACK_IMPORTED_MODULE_1__.Game.windowWidth / 2 - this.nextMess.width / 2;
-    this.nextMess.y = this.restartMess.y + 100;
+    this.nextMess.y = this.restartMess.y + _gameConstant__WEBPACK_IMPORTED_MODULE_2__.GameConstant.SCALE_DISTANCE_MESS * _game__WEBPACK_IMPORTED_MODULE_1__.Game.ratioHeight;
   }
 }
 
@@ -41762,7 +41769,7 @@ module.exports = JSON.parse('{"alpha":{"start":0.8,"end":0.1},"scale":{"start":1
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('[{"level":1,"num_of_pipe":3,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"boss","data":{"x":570,"y":720,"width":304,"height":336,"health":20}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":960,"y":460,"width":72,"height":30,"velocityX":6}}]},{"level":2,"num_of_pipe":6,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":4,"health":150}},{"type":"pipe","data":{"x":1680,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":4,"health":200}},{"type":"pipe","data":{"x":1880,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":4,"health":200}},{"type":"pipe","data":{"x":2080,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":4,"health":200}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":25}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":6}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":5}}]},{"level":3,"num_of_pipe":9,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":52,"height":1000,"velocity":5,"health":200}},{"type":"boss","data":{"x":980,"y":380,"width":304,"height":336,"health":30}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":7}}]}]');
+module.exports = JSON.parse('[{"level":1,"num_of_pipe":3,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"boss","data":{"x":570,"y":720,"width":304,"height":336,"health":20}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":960,"y":460,"width":72,"height":30,"velocityX":6}}]},{"level":2,"num_of_pipe":6,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":32,"height":1000,"velocity":2,"health":150}},{"type":"pipe","data":{"x":1680,"yTop":-960,"yBottom":340,"width":32,"height":1000,"velocity":2,"health":200}},{"type":"pipe","data":{"x":1880,"yTop":-660,"yBottom":640,"width":32,"height":1000,"velocity":2,"health":200}},{"type":"pipe","data":{"x":2080,"yTop":-810,"yBottom":490,"width":32,"height":1000,"velocity":2,"health":200}},{"type":"boss","data":{"x":570,"y":720,"width":304,"height":336,"health":25}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":6}}]},{"level":3,"num_of_pipe":9,"distance_pipes":160,"items":[{"type":"pipe","data":{"x":1080,"yTop":-960,"yBottom":340,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"pipe","data":{"x":1280,"yTop":-660,"yBottom":640,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"pipe","data":{"x":1480,"yTop":-810,"yBottom":490,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"pipe","data":{"x":1680,"yTop":-960,"yBottom":340,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"pipe","data":{"x":1880,"yTop":-660,"yBottom":640,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"pipe","data":{"x":2080,"yTop":-810,"yBottom":490,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"pipe","data":{"x":2280,"yTop":-960,"yBottom":340,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"pipe","data":{"x":2480,"yTop":-660,"yBottom":640,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"pipe","data":{"x":2680,"yTop":-810,"yBottom":490,"width":32,"height":1000,"velocity":3,"health":200}},{"type":"boss","data":{"x":570,"y":720,"width":304,"height":336,"health":30}},{"type":"dragon_fire","data":{"width":72,"height":30,"velocity":5}},{"type":"boss_fire","data":{"x":780,"y":420,"width":72,"height":30,"velocityX":7}}]}]');
 
 /***/ })
 

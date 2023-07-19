@@ -82,9 +82,9 @@
                     "x": 1080,
                     "yTop": -960,
                     "yBottom": 340,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 4,
+                    "velocity": 2,
                     "health": 150
                 }
             },
@@ -94,9 +94,9 @@
                     "x": 1280,
                     "yTop": -660,
                     "yBottom": 640,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 4,
+                    "velocity": 2,
                     "health": 150
                 }
             },
@@ -106,9 +106,9 @@
                     "x": 1480,
                     "yTop": -810,
                     "yBottom": 490,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 4,
+                    "velocity": 2,
                     "health": 150
                 }
             },
@@ -118,9 +118,9 @@
                     "x": 1680,
                     "yTop": -960,
                     "yBottom": 340,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 4,
+                    "velocity": 2,
                     "health": 200
                 }
             },
@@ -130,9 +130,9 @@
                     "x": 1880,
                     "yTop": -660,
                     "yBottom": 640,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 4,
+                    "velocity": 2,
                     "health": 200
                 }
             },
@@ -142,17 +142,17 @@
                     "x": 2080,
                     "yTop": -810,
                     "yBottom": 490,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 4,
+                    "velocity": 2,
                     "health": 200
                 }
             },
             {
                 "type": "boss",
                 "data": {
-                    "x": 980,
-                    "y": 380,
+                    "x": 570,
+                    "y": 720,
                     "width": 304,
                     "height": 336,
                     "health": 25
@@ -163,7 +163,7 @@
                 "data": {
                     "width": 72,
                     "height": 30,
-                    "velocity": 6
+                    "velocity": 5
                 }
             },
             {
@@ -173,7 +173,7 @@
                     "y": 420,
                     "width": 72,
                     "height": 30,
-                    "velocityX": 5
+                    "velocityX": 6
                 }
             }
     
@@ -190,9 +190,9 @@
                     "x": 1080,
                     "yTop": -960,
                     "yBottom": 340,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3,
                     "health": 200
                 }
             },
@@ -202,9 +202,9 @@
                     "x": 1280,
                     "yTop": -660,
                     "yBottom": 640,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3,
                     "health": 200
                 }
             },
@@ -214,89 +214,89 @@
                     "x": 1480,
                     "yTop": -810,
                     "yBottom": 490,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3,
                     "health": 200
                 }
             },
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
+                    "x": 1680,
                     "yTop": -960,
                     "yBottom": 340,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3,
                     "health": 200
                 }
             },
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1280,
+                    "x": 1880,
                     "yTop": -660,
                     "yBottom": 640,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3,
                     "health": 200
                 }
             },
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1480,
+                    "x": 2080,
                     "yTop": -810,
                     "yBottom": 490,
-                    "width": 52,
+                    "width": 32 ,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3,
                     "health": 200
                 }
             },
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1080,
+                    "x": 2280,
                     "yTop": -960,
                     "yBottom": 340,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3,
                     "health": 200
                 }
             },
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1280,
+                    "x": 2480,
                     "yTop": -660,
                     "yBottom": 640,
-                    "width": 52,
+                    "width": 32,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3,
                     "health": 200
                 }
             },
             {
                 "type": "pipe",
                 "data": {
-                    "x": 1480,
+                    "x": 2680,
                     "yTop": -810,
                     "yBottom": 490,
-                    "width": 52,
+                    "width": 32 ,
                     "height": 1000,
-                    "velocity": 5,
+                    "velocity": 3 ,
                     "health": 200
                 }
             },
             {
                 "type": "boss",
                 "data": {
-                    "x": 980,
-                    "y": 380,
+                    "x": 570,
+                    "y": 720,
                     "width": 304,
                     "height": 336,
                     "health": 30
