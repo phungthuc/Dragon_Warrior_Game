@@ -25,7 +25,7 @@ export class PipeBottom extends Sprite {
 
     _initHealth() {
         this.style = new TextStyle({
-            fontFamily: "Futura",
+            fontFamily: "Times New Roman",
             fontSize: 22,
             fill: "black"
         });

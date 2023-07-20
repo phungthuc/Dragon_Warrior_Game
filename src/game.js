@@ -3,7 +3,7 @@ import { GameConstant } from "./gameConstant";
 import { manifest } from "./manifest/assets";
 import { PlayScene } from "./scenes/playScene";
 import { InputManager } from "./input/inputManager";
-import VConsole from 'vconsole';
+// import VConsole from 'vconsole';
 
 export class Game {
     static init() {
@@ -47,14 +47,13 @@ export class Game {
         // style.transform = `scale(${scale})`;
         // let vMargin = Math.floor((this.windowWidth - this.width * scale) / 2);
         // let hMargin = Math.floor((this.windowHeight - this.height * scale) / 2);
-
         // style.margin = `${hMargin}px ${vMargin}px ${hMargin}px ${vMargin}px`;
         this.ratioWidth = window.innerWidth / GameConstant.GAME_WIDTH;
         this.ratioHeight = window.innerHeight / GameConstant.GAME_HEIGHT;
         this.app.resizeTo = this.app.view;
         this.app.resize();
         this.playScene && this.playScene.resize();
-        // console.log(window.innerWidth / GameConstant.GAME_WIDTH)
+        // console.log(window.innerWidth / GameConstant.GAME_WIDTH);
     }
 
     static async _loadGameAssets() {
