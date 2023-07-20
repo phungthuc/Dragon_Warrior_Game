@@ -4476,7 +4476,7 @@ const GameConstant = Object.freeze({
   EXPLOSION_Y: 400,
   //Dragon
   DRAGON_X: 64,
-  DRAGON_Y: 306,
+  DRAGON_Y: 520,
   DRAGON_WIDTH: 52,
   DRAGON_HEIGHT: 112,
   DRAGON_VY: 0,
@@ -5010,7 +5010,7 @@ class Boss extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   _initHealth() {
     this.style = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.TextStyle({
       fontFamily: "Futura",
-      fontSize: 30,
+      fontSize: 22,
       fill: "white"
     });
     this.messHealth = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.Text(this.health, this.style);
@@ -5040,8 +5040,8 @@ class Boss extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
   }
   spawBossFire() {
     let bossFire = this.bossFireSpawner.spawn(this);
-    bossFire.x = this.sprite.x;
-    bossFire.y = this.sprite.y + 80;
+    bossFire.x = this.sprite.x * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioWidth;
+    bossFire.y = this.sprite.y * _game__WEBPACK_IMPORTED_MODULE_9__.Game.ratioHeight;
     bossFire.v = this.dataBossFire.velocityX;
     bossFire.isCollide = true;
     this.bossFireObjects.push(bossFire);
